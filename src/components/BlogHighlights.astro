@@ -1,0 +1,83 @@
+---
+import dayjs from 'dayjs';
+import { Image } from 'astro:assets';
+import type { NodeArticle, MediaType } from '../interfaces/jsonInterfaces';
+
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+
+const drupalArticles = await fetch('https://drupal.ampere.corrupted.pw/blogs/node/article?sort=-created&page[limit]=3&filter[field_blog_category.id][value]=a4bd8146-d52f-471f-9c07-bff738f81a47&include=field_blog_listing_image.field_media_image&fields[file--file]=uri,url');
+const articles = await drupalArticles.json();
+const posts: { title: string, path: string, created: string, image?: string}[] = [];
+
+if (articles) {
+  const includedFiles = articles.included.filter((item: MediaType) => item.type === 'file--file');
+  const includedMedia = articles.included.filter((item: MediaType) => item.type === 'media--image');
+
+  articles.data.map((item: NodeArticle) => {
+    let fileURL;
+
+      let mediaID = item.relationships.field_blog_listing_image.data.id;
+
+      if (mediaID) {
+        let listedMedia = includedMedia.find((mediaItem: MediaType ) => mediaItem.id == mediaID);
+
+        if (listedMedia) {
+          let fileID = listedMedia.relationships.field_media_image.data.id;
+          let listingFile = includedFiles.find((fileItem: MediaType) => fileItem.id == fileID);
+          fileURL = listingFile.attributes.uri.url;
+        }
+      }
+
+      let file = (fileURL) ? fileURL : null;
+
+      posts.push({
+        'title': item.attributes.title,
+        'path': item.attributes.path.alias,
+        'created': item.attributes.created,
+        'image': file
+      });
+  });
+}
+---
+<section aria-labelledby="a11y-blog-heading" class="w-full bg-slate-300 mt-12 pt-12 pb-12 px-4 dark:bg-slate-900">
+  <h2 id="a11y-blog-heading" class="a11y-heading block max-w-xl mx-auto lg:max-w-4xl font-bold mb-8 mt-0 text-3xl md:text-4xl text-lt-gray dark:text-white
+  ">My newest blog posts on accessibility in my personal blog</h2>
+  <div class="max-w-7xl mx-auto">
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-8" role="list">
+
+      {posts.map((node, index: number) => {
+        return (
+          <li class="grid items-stretch p-2 border-solid border-4 gradient-border-light bg-lt-blue-light text-lt-gray
+          dark:gradient-border-dark dark:bg-dk-purple dark:text-white
+          ">
+            <a href={`https://blog.sanna.ninja/accessibility${node.path}`} class="post-link border-2 border-transparent focus:outline focus:outline-4 focus:outline-offset-15	focus:outline-black dark:focus:outline-white hover:border-lt-purple dark:hover:border-dk-blue-light">
+              { node.image &&
+                <Image
+                  src={`https://drupal.ampere.corrupted.pw/${node.image}`}
+                  alt=""
+                  densities={[1.5, 2]}
+                  width={1025}
+                  height={600}
+                />
+              }
+              <div class="self-center text-center">
+                <span id={`blog-title${index}`} class="post-title block text-lg font-bold md:text-2xl py-4 px-2
+                after:bg-black after:h-0.5 after:block after:w-10 after:mt-4 after:mb-0 after:mx-auto after:content-['']
+                dark:after:bg-white">
+                  {node.title}
+                </span>
+                <span class="sr-only">on</span>
+                <span class="block text-base md:text-xl pb-4">
+                  {dayjs(node.created)
+                    .format(`MMMM DD, YYYY`)}
+                </span>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
