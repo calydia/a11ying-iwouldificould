@@ -1,0 +1,186 @@
+---
+import type { MainMenuItem } from '../interfaces/menuInterfaces';
+import { Icon } from 'astro-icon/components';
+
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const asPath = Astro.props.currentUrl;
+
+const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=fi&trash=false';
+
+const mainMenu = await fetch(fetchUrl);
+const menuItems = await mainMenu.json();
+---
+
+<nav id="main-menu-nav" aria-labelledby="main-menu-label" class="text-black dark:text-white py-1 mt-2 nav-bar">
+  <span id="main-menu-label" class="sr-only">{ t('name-main-menu') }</span>
+  <button id="main-menu-toggle" class="menu-toggle flex items-center gap-2 mt-2 mx-auto text-black border-y-4 border-transparent dark:text-white lg:hidden lg:invisible
+  hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light
+  focus:outline focus:outline-2 focus:outline-offset-4 	focus:outline-black dark:focus:outline-white"
+    aria-expanded="false" aria-controls="main-menu" aria-haspopup="true">
+    <Icon name="bars-3-solid" class="menu-open h-8 w-8" aria-hidden="true" />
+    <Icon name="x-mark-solid" class="menu-close h-8 w-8" aria-hidden="true" />
+    <span>{ t('menu-button') }</span>
+  </button>
+  <ul id="main-menu" class="text-left mx-auto lg:visible lg:flex lg:flex-wrap lg:justify-center mt-4 p-0 mb-0
+    max-lg:absolute max-lg:z-20 lg:w-[90%] max-lg:mx-auto max-lg:left-0 max-lg:right-0 max-lg:p-4 max-lg:border-2 max-lg:border-solid max-lg:border-black max-lg:dark:border-white max-lg:bg-lt-code-bg max-lg:dark:bg-dk-code-bg"
+  >
+    {menuItems.firstLevel.map((menuItem: MainMenuItem, index: number) => {
+      const ariaCurrentPath = (asPath.includes(menuItem.mainPath) && menuItem.mainPath !== '/') ? true : undefined;
+
+      return (
+        <Fragment key={`fragment-${index}`}>
+          {menuItem.element == 'button'
+          // If the first level element is a button
+          ?
+            <li class="m-2 static">
+              <button id={`button-${index}`} aria-expanded="false" aria-controls={`menu-button-${index}`} aria-haspopup="true"
+                class={`menu-button font-light font-lato flex items-center text-left gap-2 text-black dark:text-white text-lg p-1 dark:text-shadow-text hover:text-lt-purple dark:hover:text-dk-blue-light hover:underline hover:decoration-2 hover:underline-offset-4 selection:focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white`}>
+                <span>{ menuItem.button }</span>
+                <Icon name="chevron-down-solid" class="menu-button--icon h-6 w-6" />
+              </button>
+
+              <ul id={`menu-button-${index}`}
+                  class="menu-button-ul ml-2 lg:absolute lg:mt-6 lg:z-20 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-8 lg:w-[100%] lg:max-w-screen-menu lg:mx-auto lg:left-0 lg:right-0 lg:p-4 lg:border-t-8 lg:border-solid lg:border-black lg:dark:border-white lg:bg-lt-code-bg lg:dark:bg-dk-code-bg">
+                {menuItem.secondLevel && menuItem.secondLevel.map((secondLevelItem: MainMenuItem, secondIndex: number) => {
+                  const activeClass = (asPath === secondLevelItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
+                  const ariaCurrentPage = (asPath === secondLevelItem.menuLink?.pageUrl) ? 'page' : undefined;
+                  const titleModified = secondLevelItem.button?.replace(/\s+/g, '-').toLowerCase();
+                  
+                  return (
+                    <Fragment key={`fragment-sub-${secondIndex}`}>
+                      {secondLevelItem.element == 'button'
+                      // If the second level element is a button
+                      ?
+                        <li class="relative"> 
+                            <button aria-expanded="true" class="mobile-menu-toggle w-full flex items-center text-black dark:text-white" aria-controls={`menu-button-lower-${secondIndex}-${titleModified}`}>  
+                              <span id={`subMenuItem-heading-${secondIndex}-${titleModified}`}
+                                class={`sub-header flex gap-2 items-center text-lg p-1 mt-0 text-black font-menu dark:text-white ${secondLevelItem.iconClass} max-lg:mt-2 max-lg:mb-1.5`}>
+                                <Icon name={secondLevelItem.iconClass} class="menu-icon" />
+                                <span class="main-menu-heading first-letter:capitalize flex-grow text-left">{ secondLevelItem.button }</span>
+                              </span>
+                              <Icon name="plus-solid" class="h-6 w-6 icon--plus md:h-4 md:w-4" aria-hidden="true" />
+                              <Icon name="minus-solid" class="h-6 w-6 icon--minus md:h-4 md:w-4" aria-hidden="true" />
+                              <span class="sr-only">{ t('menu-button-next-level') }</span>
+                            </button>
+
+                          <ul id={`menu-button-lower-${secondIndex}-${titleModified}`} aria-labelledby={`subMenuItem-heading-${secondIndex}-${titleModified}`}
+                              class="ml-3 menu-lower-level lg:ml-8">
+                            {secondLevelItem.thirdLevel && secondLevelItem.thirdLevel.map((thirdLevelItem: MainMenuItem, thirdIndex: number) => {
+                                const activeClassLower = (asPath === thirdLevelItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
+                                const ariaCurrentPageLower = (asPath === thirdLevelItem.menuLink?.pageUrl && thirdLevelItem.menuLink?.pageUrl !== '/') ? 'page' : undefined;
+
+                              return (
+                                <Fragment key={`fragment-sub-${thirdIndex}`}>
+                                  {thirdLevelItem.element == 'button'
+                                  // If the third level element is a button
+                                  ?
+                                    <li class="relative">
+                                      <button aria-expanded="true" class="mobile-menu-toggle w-full flex items-center text-black dark:text-white" aria-controls={`menu-button-lower-${thirdIndex}-${titleModified}`}>  
+                                        <span id={`subMenuItem-heading-${thirdIndex}-${titleModified}`}
+                                          class={`sub-header flex gap-2 items-center text-lg p-1 mt-0 text-black font-menu dark:text-white ${thirdLevelItem.iconClass} max-lg:mt-2 max-lg:mb-1.5`}>
+                                          <Icon name={thirdLevelItem.iconClass} class="menu-icon" />
+                                          <span class="main-menu-heading first-letter:capitalize flex-grow text-left">{ thirdLevelItem.button }</span>
+                                        </span>
+                                        <Icon name="plus-solid" class="h-6 w-6 icon--plus md:h-4 md:w-4" aria-hidden="true" />
+                                        <Icon name="minus-solid" class="h-6 w-6 icon--minus md:h-4 md:w-4" aria-hidden="true" />
+                                        <span class="sr-only">{ t('menu-button-next-level') }</span>
+                                      </button> 
+                                    </li>
+                                  // If the third level element is a link
+                                  :
+                                    <li class="my-1.5">
+                                      {thirdLevelItem.menuLink &&
+                                        <a href={`/${lang}/${thirdLevelItem.menuLink.pageUrl}/`} aria-current={ariaCurrentPageLower}
+                                          class={`text-md p-1 block main-menu-link first-letter:capitalize ${activeClassLower}`}
+                                        >
+                                          { thirdLevelItem.menuLink.title }
+                                        </a>
+                                      }
+                                    </li>
+                                  }
+                                </Fragment>
+                              )
+                            })}
+                          </ul>
+                        </li>
+                      // If the second level element is a link
+                      :
+                      <li class="my-1.5">
+                        {secondLevelItem.menuLink &&
+                          <a href={`/${lang}${secondLevelItem.menuLink.pageUrl}/`} aria-current={ariaCurrentPage}
+                            class={`text-md p-1 block main-menu-link first-letter:capitalize ${activeClass}`}
+                          >
+                            { secondLevelItem.menuLink.title }
+                          </a>
+                        }
+                      </li>
+                      }
+                    </Fragment>
+                  )
+                })}
+              </ul>
+            </li>
+          // If the first level element is a link
+          :
+            <li class="my-1.5">
+              {menuItem.menuLink &&
+                <a href={`/${lang}${menuItem.menuLink.pageUrl}/`}>
+                  { menuItem.menuLink.title }
+                </a>
+              }
+            </li>
+        }
+        </Fragment>
+      );
+    })}
+  </ul>
+</nav>
+
+<script>
+  const menuToggle = document.querySelectorAll('#main-menu-toggle');
+  menuToggle.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const currentExpanded = toggle.getAttribute('aria-expanded');
+      (currentExpanded == 'true') ? toggle.setAttribute('aria-expanded', 'false') : toggle.setAttribute('aria-expanded', 'true');
+
+      // Set mobile menu lower level toggles to expanded false.
+      const allLowerButtons = document.getElementsByClassName('mobile-menu-toggle');
+      if (allLowerButtons instanceof HTMLCollection) {
+        Array.from(allLowerButtons).forEach((element: Element) => {
+          element.setAttribute('aria-expanded', 'false');
+          console.log('hep')
+        });
+      }
+    });
+  });
+
+  const buttons = document.querySelectorAll('.menu-button');
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const currentExpanded = button.getAttribute('aria-expanded');
+      (currentExpanded == 'true') ? button.setAttribute('aria-expanded', 'false') : button.setAttribute('aria-expanded', 'true');
+      
+      // Close all other menu levels except the current one
+      const allButtons = document.getElementsByClassName('menu-button');
+      if (allButtons instanceof HTMLCollection) {
+        Array.from(allButtons).forEach((element: Element) => {
+          if (element !== button) {
+            element.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    });
+  });
+
+  const subButtons = document.querySelectorAll('.mobile-menu-toggle');
+  subButtons.forEach((subButton) => {
+    subButton.addEventListener('click', () => {
+      const currentExpanded = subButton.getAttribute('aria-expanded');
+      (currentExpanded == 'true') ? subButton.setAttribute('aria-expanded', 'false') : subButton.setAttribute('aria-expanded', 'true');
+    });
+  });
+
+</script>

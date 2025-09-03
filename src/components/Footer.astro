@@ -1,0 +1,84 @@
+---
+import type { FooterMenuItem } from '../interfaces/menuInterfaces';
+
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+import { Icon } from 'astro-icon/components';
+
+const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=fi&trash=false';
+
+const footerMenu = await fetch(fetchUrl);
+const menuItems = await footerMenu.json();
+
+const currentPath = '/' + Astro.props.currentPage;
+---
+
+<footer class="p-4-px lg:px-8-px lg:py-4-px border-t-8 border-solid border-blue-tory bg-lt-blue-light dark:bg-dk-purple">
+  <div class="text-center">
+    <button id="back-to-top" class="text-center button--alternative hover--border item--transition">
+      <Icon name="arrow-up-circle-solid" class="h-12 w-12 mx-auto" />
+      { t('back-to-top-button') }
+    </button>
+  </div>
+  <div class="md:flex md:justify-between max-w-[1500px] mx-auto">
+    <nav aria-label={ t('footer-menu-aria') }>
+      <ul>
+      {menuItems.navigationLinks.map((menuItem: FooterMenuItem, index: number) => {
+        const ariaCurrentPage = (currentPath === menuItem.path) ? 'page' : undefined;
+        const activeClass = (currentPath === menuItem.path) ? 'active-link': 'non-active-link';
+
+        return (
+          <li class="flex gap-4 items-center my-4 text-lt-blue-dark dark:text-dk-blue-light">
+            <Icon name={menuItem.iconClass} class="h-8 w-8" />
+            <a href={`/${lang}${menuItem.menuLink.pageUrl}/`} aria-current={ariaCurrentPage} class={`${activeClass} py-3`}
+            >
+              {menuItem.menuLink.title}
+            </a>
+          </li>
+        );
+      })}
+      </ul>
+    </nav>
+    <div class="flex items-center">
+      <div class="flex flex-col">
+        <nav aria-label={ t('sanna-other-sites') }>
+          <ul class="m-0 p-0">
+            <li>
+              <a
+                href="https://wcag.a11y.ing"
+                rel="noopener noreferrer"
+                class="font-light block py-3"
+              >
+                { t('ext-wcag') }
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://blog.sanna.ninja"
+                rel="noopener noreferrer"
+                class="font-light block py-3"
+              >
+                { t('ext-blog') }
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script is:inline src="/skip-content.js"></script>
+</footer>
+
+<script>
+  const backToTop = document.querySelectorAll('#back-to-top');
+
+  backToTop.forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = document.getElementById('page-top');
+      (target as HTMLElement).setAttribute('tabindex', '-1');
+      (target as HTMLElement).focus();
+    });
+  });
+</script>

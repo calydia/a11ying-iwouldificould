@@ -1,0 +1,742 @@
+---
+import ThemeToggle from '../components/ThemeToggle.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import SkipLink from '../components/SkipLink.astro';
+import MainNavigation from '../components/MainNavigation.astro';
+import MainImage from '../components/MainImage.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SideMenu from '../components/SideMenu.astro';
+import Footer from '../components/Footer.astro';
+import { Icon } from 'astro-icon/components';
+
+import { useTranslations } from '../i18n/utils';
+
+import '@fontsource/satisfy';
+import '@fontsource/atkinson-hyperlegible';
+import '@fontsource/lato';
+
+const { title, locale, metaDescription, engUrl, fiUrl, currentUrl, type, currentType } = Astro.props
+
+const t = useTranslations(locale);
+
+const gridClass = (currentType !== "front" && currentUrl.includes('info/') === false && currentUrl.includes('search') === false && currentUrl.includes('haku') === false || currentUrl.includes('hakukone') === true) ? 'use-grid' : 'no-grid';
+const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === false && currentUrl.includes('search') === false && currentUrl.includes('haku') === false || currentUrl.includes('hakukone') === true) ? 'crumb-grid' : 'crumb-no-grid';
+---
+<html lang={ locale }>
+  <head>
+    <title>{ title } - { t('site-name') } - A11ying with Sanna</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content={ title } />
+    <meta name="description" content={ metaDescription } />
+    <meta
+      property="og:description"
+      content={ metaDescription }
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={ locale } />
+    <meta property="og:site_name" content={ t('site-name') } />
+    <meta property="og:image" content="/some-share.jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicons/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="sitemap" href="/sitemap-index.xml" />  
+  </head>
+  <body class="font-sans hyphens-auto">
+
+    <header id="page-top" class="bg-gradient-to-r from-lt-perfume via-lt-blue-light to-lt-perfume
+      dark:from-dk-purple-header dark:via-dk-blue-header dark:to-dk-purple-header">
+      <SkipLink skipId="skip" skipTarget="#skip-target" skipTextVariable="skip-link-text" />
+      <div class="flex flex-wrap justify-end gap-1">
+        <!-- <SearchBlock locale={locale} /> -->
+        <LanguageSwitcher englishURL={ engUrl } finnishURL={ fiUrl } currentPage={ currentUrl } type={ type } />
+        <ThemeToggle />
+      </div>
+      <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-3 clear-both md:gap-8 lg:clear:none">
+        <a href={`/${locale}/`} class="inline-block border-y-4 border-transparent p-2
+          hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light
+          focus:outline focus:outline-2 focus:outline-offset-4 	focus:outline-black dark:focus:outline-white">
+          <Icon name="a11ying-dark" class="logo-dark" height="173" width="348" aria-hidden="true" />
+          <Icon name="a11ying-light" class="logo-light" height="173" width="348" aria-hidden="true" />
+          <span class="sr-only">{ t('site-front-link') }</span>
+        </a>
+        <div>
+          <span class="block text-xl font-title text-black dark:text-white dark:text-shadow-text md:text-4xl">{ t('site-name') }</span>
+          <span class="block text-xs mt-1 leading-none text-blue-tory dark:text-lt-perfume dark:text-shadow-text md:text-base">{  t('site-slogan') }</span>
+        </div>
+      </div>
+      <MainNavigation currentUrl={ currentUrl } locale={ locale } />
+    </header>
+    <MainImage />
+    { (currentType !== "front") ?
+      <Breadcrumb currentTitle={ title } currentUrl={ currentUrl } gridClass={crumbClass} type={ type } />
+    : null }
+    <main class={`text-lg lg:text-xl mb-8 md:mb-12 max-w-7xl md:mx-auto ${gridClass}`}>
+      { (currentType !== "front" && !currentUrl.includes('/info/')) ?
+        <SideMenu currentUrl={ currentUrl } locale={ locale } />
+      : null }
+      <slot />
+    </main>
+    <slot name="blogs" />
+    <Footer currentPage={ currentUrl } locale={ locale } />
+    <div itemscope itemtype="https://schema.org/WebSite">
+      <meta itemprop="url" content="https://a11y.ing/"/>
+      <meta itemprop="name" content={ t('site-name') } />
+    </div>  
+  </body>
+</html>
+
+<style is:global>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  :root {
+    --quote-icon: url('/icons/iconmonstr-quote-light.svg');
+    --external-icon: url('/icons/icons8-external-link-light.svg');
+    --exclamation-icon: url('/icons/hi-exclamation-circle-light.svg');
+    --nav-background: rgba(255,255,255,0.2);
+    --nav-border: rgba(255,255,255,0.4);
+    --menu-header-background: rgba(0,0,0,0.4);
+  }
+  :root.dark {
+    --quote-icon: url('/icons/iconmonstr-quote-dark.svg');
+    --external-icon: url('/icons/icons8-external-link-dark.svg');
+    --exclamation-icon: url('/icons/hi-exclamation-circle-dark.svg');
+    --nav-background: rgba(0,0,0,0.1);
+    --nav-border: rgba(0,0,0,0.4);
+    --menu-header-background: rgba(255,255,255,0.4);
+  }
+
+  .light .main-image--wrapper::before{
+    background-color: rgba(230, 200, 252, 0.2);
+    background: linear-gradient(to right, rgba(187, 201, 247, 0.4) 0%, rgba(230,202, 252, 0.4) 50%, rgba(187, 201, 247, 0.4) 100%);
+  }
+
+  .dark .main-image--wrapper::before {
+    background-color: rgba(53, 3, 94, 0.2);
+    background: linear-gradient(to right, rgba(24, 57, 154, 0.3) 0%, rgba(53, 3, 94, 0.3) 50%, rgba(24, 57, 154, 0.3) 100%);
+  }
+
+  .gradient-border-light {
+    border-image: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
+    border-image-slice: 1;
+  }
+
+  .gradient-border-dark {
+    border-image: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
+    border-image-slice: 1;
+  }
+
+  .text-shadow-text {
+    text-shadow: rgb(0 0 0 / 46%) 4px 4px 6px;
+  }
+
+  .light {
+    @apply bg-lt-bg;
+  }
+
+  .dark {
+    @apply bg-dk-blue-darkest;
+  }
+
+  .dark .logo-dark,
+  .light .logo-light {
+    @apply hidden invisible;
+  }
+
+  .light .darkmode-light,
+  .light .logo-light {
+    @apply hidden invisible;
+  }
+
+  .dark .darkmode-dark,
+  .dark .logo-dark {
+    @apply hidden invisible;
+  }
+
+  .logo-light,
+  .logo-dark {
+    @apply h-auto w-24;
+    @apply md:w-32;
+  }
+
+  p {
+    @apply text-lg md:text-xl mb-8 leading-relaxed md:leading-relaxed font-light;
+  }
+
+  .introduction p {
+    @apply text-xl md:text-2xl leading-relaxed md:leading-relaxed;
+  }
+
+  .toc-box {
+    @apply bg-white dark:bg-dk-blue-darkest my-12 border-solid border-l-8 border-t-2 border-b-2 border-r-2 rounded-3xl border-lt-code-border dark:border-dk-code-border p-8;
+  }
+
+  .light .toc-box {
+    @apply shadow-2xl;
+  }
+
+  .light .sidebar-menu {
+    @apply shadow-xl;
+  }
+
+  .toc-box li {
+    @apply my-4;
+  }
+
+  .toc-box li li {
+    @apply mx-2;
+  }
+
+  .toc-box a {
+    @apply no-underline hover:underline;
+  }
+
+  .post-link {
+    @apply no-underline;
+  }
+
+  .post-link:hover .post-title {
+    @apply text-lt-purple dark:text-dk-blue-light underline decoration-2 underline-offset-4;
+  }
+
+  h1 {
+    @apply first-letter:capitalize text-3xl font-bold font-heading mt-4 mb-4 lg:mb-8 lg:text-4xl relative;
+  }
+  h2 {
+    @apply mb-4 text-2xl lg:text-3xl font-bold mt-12 font-heading relative;
+  }
+
+  h3 {
+    @apply mb-4 text-xl lg:text-2xl font-bold mt-12 font-heading relative;
+  }
+
+  h4 {
+    @apply mb-4 text-lg lg:text-xl font-bold mt-12 font-heading relative;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-lt-gray-heading dark:text-dk-gray-heading;
+  }
+
+  h1::before,
+  h2::before,
+  h3::before,
+  h4::before {
+    content: '';
+
+    @apply bg-lt-perfume dark:bg-dk-purple-header absolute block z-[-1] bottom-0 w-10 h-2.5;
+  }
+
+  .a11y-heading::before {
+    @apply hidden invisible;  
+  }
+
+  .custom-grid {
+    grid-template-columns: 1fr 280px;
+  }
+
+  blockquote {
+    @apply relative bg-slate-300 dark:bg-slate-900 my-12 p-6 border-solid border-l-8 border-l-lt-purple dark:border-l-dk-blue-light;
+  }
+
+  .box p:first-of-type,
+  blockquote p:first-of-type {
+    @apply mt-0;
+  }
+
+  .box p:last-of-type {
+    @apply mb-0;
+  }
+
+  blockquote cite {
+    @apply block text-base not-italic mt-4 lg:text-right;
+  }
+
+  blockquote::after {
+    @apply block absolute right-[-4px] md:right-[-2rem] top-[-2rem] text-7xl bg-no-repeat bg-center h-16 w-16;
+
+    background-image: var(--quote-icon);
+    background-size: 4rem;
+    content: '';
+  }
+
+  strong {
+    @apply font-bold;
+  }
+  code {
+    @apply text-base border-solid border py-0.5 px-1 mx-0.5 inline-block bg-lt-code-bg border-lt-code-border dark:bg-dk-code-bg dark:border-dk-code-border shadow-lg;
+  }
+
+  main {
+    @apply text-lg lg:text-xl;
+  }
+
+  .breadcrumb a,
+  #main-menu-nav a,
+  main a,
+  footer a {
+    @apply text-lt-blue-dark dark:text-dk-blue-light;
+    @apply hover:underline hover:underline-offset-4 hover:text-lt-purple hover:decoration-2 dark:hover:text-wheat;
+    @apply focus:text-lt-purple dark:focus:text-wheat focus:outline-2 focus:outline-offset-2 focus:no-underline focus:outline-lt-purple dark:focus:outline-wheat;
+  }
+
+  .glossary-term ul,
+  .bodytext ul,
+  .box ul {
+    @apply list-disc ml-5 leading-loose;
+  }
+
+  a[aria-current=true],
+  a[aria-current="page"],
+  #main-menu-nav a[aria-current="page"],
+  .active-link {
+    @apply underline decoration-2 underline-offset-4 text-lt-purple dark:text-wheat;
+    @apply hover:decoration-4;
+  }
+
+  button[aria-current="true"] {
+    @apply underline decoration-2 underline-offset-4 text-lt-purple dark:text-wheat;
+    @apply hover:decoration-4;
+  }
+
+  ol {
+    @apply list-decimal leading-normal;
+
+    margin-block-start: 0.25em;
+    margin-block-end: 0.25em;
+    margin-inline-start: 1.5em;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+  }
+
+  ol, ul {
+    @apply font-light;
+  }
+
+  ol li {
+    @apply my-4;
+  }
+
+  .bodytext ol, ul {
+    @apply mb-8;
+  }
+  
+  .bodytext ol ol,
+  .bodytext ul ul,
+  .toc-box ul {
+    @apply mb-0;
+  }
+
+  blockquote ul {
+    @apply list-disc;
+  }
+
+  blockquote ol,
+  blockquote ul {
+    margin-block-start: 0.25em;
+    margin-block-end: 0.25em;
+    margin-inline-start: 1.5em;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+  }
+
+  blockquote p:last-of-type {
+    @apply mb-0;
+  }
+
+  .hide-menu {
+    @apply hidden invisible;
+  }
+
+  .menu-button[aria-expanded="false"] + ul {
+    @apply hidden invisible;
+  }
+
+  .menu-button[aria-expanded="true"] .menu-button--icon  {
+    @apply rotate-180;
+  }
+
+  .menu-toggle[aria-expanded="false"] + ul {
+    @apply max-lg:hidden max-lg:invisible;
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-open {
+    @apply max-lg:hidden max-lg:invisible;
+  }
+  .menu-toggle[aria-expanded="false"] .menu-close {
+    @apply max-lg:hidden max-lg:invisible;
+  }
+
+  .lang-switcher[aria-expanded="false"] + ul {
+    @apply hidden invisible;
+  }
+
+  .icon--footer {
+    @apply fill-lt-blue-dark dark:fill-dk-blue-light;
+  }
+
+  .lang-switcher a[aria-current="page"] {
+    @apply underline decoration-4 underline-offset-4 text-lt-purple dark:text-wheat;
+    @apply hover:decoration-2;
+  }
+
+  .lang-switcher a {
+    @apply hover:underline hover:text-lt-purple hover:decoration-4 dark:hover:text-wheat;
+  }
+
+  .button {
+    @apply bg-lt-blue-dark text-white border-4 border-transparent dark:bg-dk-blue-light dark:text-black py-3 px-5;
+    @apply hover:border-4 hover:border-lt-blue-dark hover:bg-transparent hover:text-lt-blue-dark dark:hover:text-dk-blue-light dark:hover:border-dk-blue-light;
+    @apply focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white;
+  }
+
+  .button--alternative {
+    @apply text-lt-blue-dark dark:text-dk-blue-light py-2 px-3;
+  }
+
+  .item--transition {
+    @apply transition-colors ease-in-out duration-300;
+    @apply hover:transition-colors hover:ease-in-out hover:duration-300;
+  }
+
+  .hover--border {
+    @apply border-y-4 border-transparent;
+    @apply hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light;
+    @apply focus:outline focus:outline-2 focus:outline-offset-4	focus:outline-black dark:focus:outline-white;
+  }
+
+  .example-section p:first-child {
+    @apply mt-0;
+  }
+
+  /* Demo content */
+  .demo-no-focus:focus {
+    @apply hidden;
+  }
+  .pseudo-test-triangle-problem,
+  .pseudo-test-triangle-better {
+    @apply flex;
+  }
+  .pseudo-test-triangle-problem::before {
+    content: '\25BA' !important;
+    display: block !important;
+    height: 10px !important;
+    padding-right: 30px !important;
+    width: 10px !important;
+  }
+  .pseudo-test-triangle-better::before {
+    content: '\25BA' / '';
+    display: block;
+    height: 10px;
+    padding-right: 30px;
+    width: 10px;
+  }
+  .list-no-style {
+    list-style: none;
+  }
+  .list-css-fix li {
+    @apply list-none;
+  }
+  .list-css-fix li::before {
+    content: "\2022";
+  }
+
+  table {
+    @apply border-2 border-black dark:border-white p-2;
+  }
+
+  th {
+    @apply font-bold p-4 border-2 border-black dark:border-white;
+  }
+
+  td {
+    @apply p-4 border-2 border-black dark:border-white;
+  }
+
+  table caption {
+    @apply text-center my-2;
+  }
+
+  .table figcaption {
+    @apply my-2;
+  }
+
+  a.no-focus:focus {
+    @apply border-none text-lt-blue-dark dark:text-dk-blue-light underline underline-offset-4 decoration-2;
+
+    outline: none !important;
+  }
+
+  .example-section select {
+    @apply p-2 text-black border-2 border-black;
+  }
+
+  input[type="text"] {
+    @apply py-3.5 px-4 my-2 text-black border-2 m-0 border-solid border-black dark:border-white;
+    @apply focus:outline focus:outline-2 focus:outline-offset-4	focus:outline-black dark:focus:outline-white;
+  }
+
+  .mobile-menu-toggle[aria-expanded="false"] .icon--minus {
+    @apply hidden invisible;
+  }
+  .mobile-menu-toggle[aria-expanded="true"] .icon--plus {
+    @apply hidden invisible;
+  }
+  .mobile-menu-toggle[aria-expanded="false"] + ul {
+    @apply hidden invisible;
+  }
+
+  .sub-header {
+    @apply lg:border-b lg:border-solid;
+
+    border-color: var(--menu-header-background);
+    width: calc(100% - 1.25rem);
+  }
+  .glossary-term p:first-of-type {
+    @apply mt-0;
+  }
+  .glossary-term p:last-of-type {
+    @apply mb-0;
+  }
+
+  main a {
+    @apply underline;
+  }
+
+  main a[href^="https://"]::after {
+    @apply inline-block bg-no-repeat bg-right-bottom h-6 w-6;
+
+    background-image: var(--external-icon);
+    background-size: 1.25rem 1.25rem;
+    content: '';
+  }
+
+  .notice-box {
+    @apply flex items-center flex-nowrap bg-slate-300 dark:bg-slate-900 my-6 shadow-lg rounded-lg dark:shadow-none py-4 pr-4;
+    @apply bg-gradient-to-r from-lt-code-bg to-lt-blue-light;
+    @apply dark:from-dk-code-bg dark:to-dk-blue-darkest;
+    @apply border border-black dark:border-white;
+  }
+  .notice-box::before {
+    @apply block m-0 w-12 p-8 mr-4 bg-no-repeat bg-center;
+
+    background-image: var(--exclamation-icon);
+    background-size: 2.5rem 2.5rem;
+    content: '';
+  }
+  .notice-box p {
+    @apply m-0;
+  }
+
+  .menu-icon {
+    @apply h-6 w-6 shrink-0 self-start mt-[2px];
+  }
+
+  .demo-select {
+    @apply focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white;
+  }
+
+  .demo-image {
+    @apply w-full h-auto max-w-[480px];
+  }
+
+  .nav-bar {
+    @apply pb-4 ;
+    background-color: var(--nav-background);
+    border-top: 1px solid var(--nav-border);
+  }
+  
+  .light .gradient-border-demo {
+    border-image: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
+    border-image-slice: 1;
+  }
+
+  .dark .gradient-border-demo {
+    border-image: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
+    border-image-slice: 1;
+  }
+
+  .use-grid {
+    grid-template-columns: 320px 1fr;
+
+    @apply md:grid;
+  }
+
+  .crumb-grid {
+    @apply md:ml-[372px];
+  }
+
+  .crumb-no-grid {
+    @apply max-w-4xl mx-auto;
+  }
+
+  .demo-buttons {
+    @apply flex flex-row flex-wrap;
+  }
+  .demo-button-wrapper {
+    @apply relative;
+  }
+  .demo-button-fail {
+    @apply block w-5 h-5 bg-lt-blue-light dark:bg-blue-tory;
+  }
+  .demo-button-size-fail {
+    left: -0.125rem;
+    top: -0.125rem;
+
+    @apply absolute w-6 h-6 rounded-full z-10 opacity-50 bg-black dark:bg-white;
+  }
+
+  .demo-button-margin {
+    @apply block w-5 h-5 m-0.5 bg-lt-blue-light dark:bg-blue-tory;
+  }
+  .demo-button-size-margin {
+    @apply absolute z-10 w-6 h-6 rounded-full opacity-50 top-0 left-0 bg-black dark:bg-white;
+  }
+
+  .demo-button-padding {
+    @apply block w-6 h-6 p-1 bg-lt-blue-light dark:bg-blue-tory;
+  }
+  .demo-button-size-padding {
+    @apply absolute w-6 h-6 rounded-full z-10 opacity-50 top-0 left-0 bg-black dark:bg-white;
+  }
+
+  .bg-gray {
+    @apply bg-slate-300 dark:bg-slate-900;
+  }
+
+  .box-gradient {
+    @apply max-w-xl mx-4 sm:mx-auto border-8 p-8 md:my-12 bg-lt-blue-light text-lt-gray self-start shadow-md;
+    @apply dark:bg-dk-purple dark:text-dk-gray;
+  }
+
+  .box-bordered h2,
+  .box-gradient h2 {
+    @apply mt-0;
+  }
+
+  .box-bordered h2::before,
+  .box-gradient h2::before {
+    @apply hidden invisible;
+  }
+
+  .box-bordered {
+    @apply relative bodytext mt-12 p-8-px md:my-12 text-base border-solid border-4 bg-lt-code-bg border-lt-code-border dark:bg-dk-code-bg dark:border-dk-code-border shadow-xl
+  }
+
+  .box-underlined h2 {
+    @apply mb-0;
+  }
+
+  .box-underlined h2::before {
+    @apply hidden invisible;  
+  }
+
+  .box-underlined .content-box--inner-wrapper {
+    @apply text-xl bodytext p-4-px lg:p-8-px border-t-4;
+
+    border-image: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
+    border-image-slice: 1;
+  }
+
+  .richtext-html-block {
+    @apply mb-8;
+  }
+
+  details {
+    @apply bg-white dark:bg-dk-blue-darkest my-12 border-solid border-l-8 border-t-2 border-b-2 border-r-2 rounded-3xl border-lt-code-border dark:border-dk-code-border p-8;
+  }
+
+  .details-content {
+    @apply mt-4;
+  }
+
+  .details-content p:last-of-type {
+    @apply mb-0;
+  }
+</style>
+
+<script>
+  document.addEventListener('keyup', (event) => {
+
+    if (event.code == "Escape") {
+      const targetClass = (event.target as HTMLButtonElement).classList;
+      const currentExpanded = (event.target as HTMLButtonElement).getAttribute('aria-expanded');
+
+      /**
+       * Main menu
+       */
+
+      // If we press esc when focused on a menu button or the toggle.
+      if (targetClass.contains('menu-button') || targetClass.contains('menu-toggle') || targetClass.contains('mobile-menu-toggle')) {
+        (event.target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+        (event.target as HTMLButtonElement).focus();
+      }
+
+      // If we press esc when focused on a menu button or the toggle.
+      if (targetClass.contains('side-menu-button') || targetClass.contains('menu-toggle') || targetClass.contains('mobile-menu-toggle')) {
+        (event.target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+        (event.target as HTMLButtonElement).focus();
+      }
+
+      // If esc is pressed on a menu button with aria-expanded as false, close the menu and focus the toggle.
+      if (targetClass.contains('menu-button') && currentExpanded == 'false') {
+        const menuToggle = document.getElementById('main-menu-toggle');
+        (menuToggle as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+        (menuToggle as HTMLButtonElement).focus();
+      }
+
+      // If esc is pressed on a menu plus/minus button with aria-expanded as false, close the menu and focus the previous button.
+      if (targetClass.contains('mobile-menu-toggle') && currentExpanded == 'false') {
+        const closestMenuButton = (event.target as HTMLAnchorElement).closest('.menu-button-ul');
+        if (closestMenuButton) {
+          (closestMenuButton.previousSibling as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+          (closestMenuButton.previousSibling as HTMLButtonElement).focus();
+        }
+      }
+
+      // Find closest menu button or menu toggle, close menu elements accordingly.
+      if ((event.target as HTMLElement).tagName == 'A') {
+        const closestMenuLevelToggle = (event.target as HTMLAnchorElement).closest('.menu-lower-level');
+        const closestMenuButton = (event.target as HTMLAnchorElement).closest('.menu-button-ul');
+        const closestMenuToggle = (event.target as HTMLAnchorElement).closest('#main-menu');
+
+        if (closestMenuLevelToggle) {
+          (closestMenuLevelToggle.previousSibling as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+          (closestMenuLevelToggle.previousSibling as HTMLButtonElement).focus();
+        } else if (closestMenuButton) {
+          (closestMenuButton.previousSibling as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+          (closestMenuButton.previousSibling as HTMLButtonElement).focus();
+        } else if (closestMenuToggle) {
+          const menuToggle = document.getElementById('main-menu-toggle');
+          (menuToggle as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+          (menuToggle as HTMLButtonElement).focus();
+        }
+      }
+
+      /**
+       * Language switcher
+       */
+
+      // If we press esc when focused on language switcher toggle.
+      if (targetClass.contains('lang-switcher')) {
+        (event.target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+        (event.target as HTMLButtonElement).focus();
+      }
+
+      // Close the language swicher if we press esc in a language switcher link
+      if ((event.target as HTMLElement).tagName == 'A') {
+        const closestMenuToggle = (event.target as HTMLAnchorElement).closest('#lang-switcher');
+
+        if (closestMenuToggle) {
+          const menuToggle = document.getElementById('language-menu-button');
+          (menuToggle as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+          (menuToggle as HTMLButtonElement).focus();
+        }
+      }
+    }
+  });
+</script>

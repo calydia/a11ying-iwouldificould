@@ -1,0 +1,61 @@
+---
+  import { getLangFromUrl, useTranslations } from '../i18n/utils';
+  import { Icon } from 'astro-icon/components';
+
+  const lang = getLangFromUrl(Astro.url);
+  const t = useTranslations(lang);
+---
+<button id="theme-toggle-button" class="py-2 px-3 text-black dark:text-white border-y-4 border-transparent
+  hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light
+  focus:outline focus:outline-2 focus:outline-offset-4 	focus:outline-black dark:focus:outline-white"
+  >
+    <span class="darkmode-dark">
+      <Icon name="moon-solid" class="h-8 w-8" aria-hidden="true" title={ t('theme-toggle-text-dark') } />
+      <span class="sr-only">{ t('theme-toggle-text-dark') }</span>
+    </span>
+    <span class="darkmode-light">
+      <Icon name="sun-solid" class="h-8 w-8" aria-hidden="true" title={ t('theme-toggle-text-light') } />
+      <span class="sr-only">{ t('theme-toggle-text-light') }</span>
+    </span>
+  </button>
+
+
+<script is:inline>
+  // Implementation based on accessible Astro components
+  // variables
+  let darkMode = localStorage.getItem('darkMode');
+  const darkModeToggle = document.querySelector('#theme-toggle-button');
+
+  // functions
+  const enableDarkMode = (store = true) => {
+    document.documentElement.classList.add('dark');
+    document.documentElement.classList.remove('light');
+    darkModeToggle.setAttribute('aria-pressed', 'true');
+    if (store) localStorage.setItem('darkMode', 'enabled');
+  }
+
+  const disableDarkMode = (store = true) => {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
+    darkModeToggle.setAttribute('aria-pressed', 'false');
+    if (store) localStorage.setItem('darkMode', 'disabled');
+  }
+
+  const checkPreference = () => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      enableDarkMode(false);
+    } else {
+      disableDarkMode(false);
+    }
+  }
+
+  if (darkMode === 'enabled') enableDarkMode();
+  if (darkMode === 'disabled') disableDarkMode();
+  if (!darkMode) checkPreference();
+
+  darkModeToggle.addEventListener('click', () => {
+    darkMode = document.documentElement.classList.contains('dark');
+
+    !darkMode ? enableDarkMode() : disableDarkMode();
+  });
+</script>

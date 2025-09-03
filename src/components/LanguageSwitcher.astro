@@ -1,0 +1,54 @@
+---
+  import { getLangFromUrl, useTranslations } from '../i18n/utils';
+  import { Icon } from 'astro-icon/components';
+
+  const lang = getLangFromUrl(Astro.url);
+  const t = useTranslations(lang);
+
+  let ariaCurrentPageEn: 'page' | undefined = (Astro.props.englishURL === Astro.props.currentPage && lang !== 'fi') ? 'page' : undefined;
+  let ariaCurrentPageFi: 'page' | undefined = (Astro.props.finnishURL === Astro.props.currentPage && lang !=='en') ? 'page' : undefined;
+
+  let finnishUrl = (Astro.props.finnishURL === 'front') ? '/fi/' :  '/fi/' + Astro.props.finnishURL + '/';
+  let englishUrl = (Astro.props.englishURL === 'front') ? '/en/' : '/en/' + Astro.props.englishURL + '/';
+
+  if (Astro.props.type === 'demo') {
+    finnishUrl = '/fi/demo/' + Astro.props.finnishURL + '/';
+    englishUrl = '/en/demo/' + Astro.props.englishURL + '/';
+  }
+---
+
+<div id="language-switcher" class="lang-switcher text-black dark:text-white px-3 relative">
+  <button id="language-menu-button" aria-label={ t('language-switcher-aria') } aria-expanded="false" aria-controls="lang-switcher" class="lang-switcher flex gap-2 py-2 border-y-4 border-transparent items-center
+  hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light
+  focus:outline focus:outline-2 focus:outline-offset-4	focus:outline-black dark:focus:outline-white">
+    <Icon name="language-solid" class="h-8 w-8" aria-hidden="true" />
+    { t('language-switcher-language') }
+  </button>
+  <ul id="lang-switcher" class="p-4 right-0 mt-1 mr-1.5 absolute flex flex-col gap-4 border-solid border-2 border-black bg-lt-code-bg dark:border-white w-[140%] md:w-[200%] dark:bg-dk-code-bg">
+    {Astro.props.englishURL &&
+      <li>
+        <a href={englishUrl} hreflang="en" lang="en" aria-current={ariaCurrentPageEn}>
+          English (EN)
+        </a>
+      </li>
+    }
+    {Astro.props.finnishURL &&
+      <li>
+        <a href={finnishUrl} hreflang="fi" lang="fi" aria-current={ariaCurrentPageFi}>
+          Suomi (FI)
+        </a>
+      </li>
+    }
+  </ul>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('#language-menu-button');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const currentExpanded = button.getAttribute('aria-expanded');
+      (currentExpanded == 'true') ? button.setAttribute('aria-expanded', 'false') : button.setAttribute('aria-expanded', 'true');
+    });
+  });
+</script>

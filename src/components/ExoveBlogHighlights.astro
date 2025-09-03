@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import type { BlogPost, ExoveBlog } from '../interfaces/blogInterfaces';
+
+const title = Astro.props.title;
+const intro = Astro.props.intro;
+
+const posts: ExoveBlog = Astro.props.posts;
+
+const bgClass = Astro.props.bgClass;
+---
+<section aria-labelledby="a11y-blog-heading-exove" class={`${bgClass} w-full mt-12 pt-12 pb-12 md:pb-20 px-4`}>
+  <h2 id="a11y-blog-heading-exove" class="a11y-heading max-w-xl mx-auto lg:max-w-4xl block font-bold mb-8 mt-0 text-3xl md:text-4xl text-lt-gray dark:text-white
+  ">{title}</h2>
+  <div class="max-w-7xl mx-auto">
+    <p class="text-xl bodytext max-w-xl mx-auto leading-relaxed lg:max-w-4xl text-lt-gray dark:text-dk-gray">
+      {intro}
+    </p>
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-8" role="list">
+      {posts.map((blogPost: BlogPost) => {
+        return (
+          <li class="grid items-stretch p-2 border-solid border-4 gradient-border-light bg-lt-blue-light text-lt-gray
+          dark:gradient-border-dark dark:bg-dk-purple dark:text-white
+          ">
+            <a href={blogPost.url} class="post-link border-2 border-transparent focus:outline focus:outline-4 focus:outline-offset-15	focus:outline-black dark:focus:outline-white hover:border-lt-purple dark:hover:border-dk-blue-light">
+              { blogPost.image &&
+                <Image
+                  src={`${import.meta.env.PUBLIC_PAYLOAD_URL}${blogPost.image.url}`}
+                  alt=""
+                  densities={[1.5, 2]}
+                  width={1025}
+                  height={600}
+                />
+              }
+              <div class="self-center text-center">
+                <span class="post-title block text-lg font-bold md:text-2xl py-4 px-2
+                after:bg-black after:h-0.5 after:block after:w-10 after:mt-4 after:mb-0 after:mx-auto after:content-['']
+                dark:after:bg-white">
+                  {blogPost.title}
+                </span>
+                <span class="sr-only">on</span>
+                <span class="block text-base md:text-xl pb-4">
+                  {blogPost.date}
+                </span>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

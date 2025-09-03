@@ -1,0 +1,58 @@
+---
+const randomNumber = (min: number, max: number) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+const imageSource = 'bg-' + randomNumber(1, 6);
+---
+
+<div class="main-image--wrapper relative w-full h-125-px md:h-250-px lg:h-350-px overflow-hidden">
+  <div aria-hidden="true" class={`relative w-screen h-125-px md:h-250-px lg:h-350-px bg-cover bg-center ${imageSource}`}></div>
+</div>
+
+<style>
+  .bg-1 {
+    background-image: url('/mountains/1.jpg');
+  }
+  @supports (background-image: -webkit-image-set(url('/mountains/1.webp') 1x)) {
+    .bg-1 {background-image: -webkit-image-set(url('/mountains/1.webp') 1x) }
+  }
+  .bg-2 {
+    background-image: url('/mountains/2.jpg');
+  }
+  @supports (background-image: -webkit-image-set(url('/mountains/2.webp') 1x)) {
+    .bg-2 {background-image: -webkit-image-set(url('/mountains/2.webp') 1x) }
+  }
+  .bg-3 {
+    background-image: url('/mountains/3.jpg');
+  }
+  @supports (background-image: -webkit-image-set(url('/mountains/3.webp') 1x)) {
+    .bg-3 {background-image: -webkit-image-set(url('/mountains/3.webp') 1x) }
+  }
+  .bg-4 {
+    background-image: url('/mountains/4.jpg');
+  }
+  @supports (background-image: -webkit-image-set(url('/mountains/4.webp') 1x)) {
+    .bg-4 {background-image: -webkit-image-set(url('/mountains/4.webp') 1x) }
+  }
+  .bg-5 {
+    background-image: url('/mountains/5.jpg');
+  }
+  @supports (background-image: -webkit-image-set(url('/mountains/5.webp') 1x)) {
+    .bg-5 {background-image: -webkit-image-set(url('/mountains/5.webp') 1x) }
+  }
+  .bg-6 {
+    background-image: url('/mountains/6.jpg');
+  }
+  @supports (background-image: -webkit-image-set(url('/mountains/6.webp') 1x)) {
+    .bg-6 {background-image: -webkit-image-set(url('/mountains/6.webp') 1x) }
+  }
+
+  .main-image--wrapper::before {
+    @apply z-10 absolute block bottom-0 left-0 right-0 top-0 w-full;
+
+    content: "";
+  }
+</style>

@@ -1,16 +1,28 @@
 ---
+import fetchApi from '../lib/payload';
+import Layout from '../layouts/Layout.astro';
+import type { ExoveBlog } from '../interfaces/blogInterfaces';
+import ExoveBlogHighlights from '../components/ExoveBlogHighlights.astro';
 
+const posts = await fetchApi<ExoveBlog>({
+  endpoint: 'blogCards',
+  wrappedByKey: 'docs',
+  lang: 'en'
+});
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Etusivun title" locale="en" metaDescription="metakuvaus"
+  currentType="front" currentUrl="front" fiUrl="front" engUrl="front" alternateFi="fi" alternateEn="en" type="front"
+>
+  <div class="max-w-[1564px] mx-auto md:px-8-px md:flex">
+    <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
+      <h1 id="skip-target">Etusivun otsikko</h1>
+      <div class="text-xl bodytext">Etusivun sisältö</div>
+    </div>
+  </div>
+  <ExoveBlogHighlights slot="blogs"
+    title="My newest blog posts on accessibility in Exove's blog"
+    intro="I'm also trying to do my part in Exove's mission to defrustrate the digital by sharing my accessibility knowledge in the company blog."
+    posts={posts}
+    bgClass="bg-blue"
+    />
+</Layout>
