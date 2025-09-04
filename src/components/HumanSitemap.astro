@@ -54,7 +54,7 @@ const infoMenuItems = await infoMenu.json();
                                   // The third level items are only links
                                   return(
                                     <li class="my-2">
-                                      <a href={`/${ lang }${ lowerSubMenuItem.menuLink?.title }/`} aria-current={ariaCurrentPageLower}
+                                      <a href={`/${ lang }/${ lowerSubMenuItem.menuLink?.pageUrl }/`} aria-current={ariaCurrentPageLower}
                                         class={`${activeClassLower} block first-letter:capitalize`}
                                       >
                                         {lowerSubMenuItem.menuLink?.title}
@@ -65,7 +65,7 @@ const infoMenuItems = await infoMenu.json();
                             </ul>
                           </li>
                         : <li class="my-2">
-                            <a href={`/${ lang }${ subMenuItem.menuLink?.title }/`} aria-current={ariaCurrentPage}
+                            <a href={`/${ lang }/${ subMenuItem.menuLink?.pageUrl }/`} aria-current={ariaCurrentPage}
                               class={`${activeClass} block first-letter:capitalize`}
                             >
                               {subMenuItem.menuLink?.title}
