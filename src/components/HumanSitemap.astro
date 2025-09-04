@@ -1,0 +1,115 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import type { MainMenuItem } from '../interfaces/menuInterfaces';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const asPath = Astro.props.currentUrl;
+
+const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=fi&trash=false';
+const mainMenu = await fetch(fetchUrl);
+const mainMenuItems = await mainMenu.json();
+
+const infoFetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=fi&trash=false';
+const infoMenu = await fetch(infoFetchUrl);
+const infoMenuItems = await infoMenu.json();
+---
+
+<h2>{ t('name-main-menu') }</h2>
+<div>
+  <ul class="ml-8 list-disc">
+    {mainMenuItems.firstLevel.map((menuItem: MainMenuItem, index: number) => {
+      const ariaCurrentPageTop = (asPath === menuItem.menuLink?.title) ? 'page' : undefined;
+      const activeClassTop = (asPath === menuItem.menuLink?.title) ? 'active-link': 'non-active-link';
+
+      return (
+        <Fragment key={`main-fragment-${index}`}>
+          {menuItem.element == 'button'
+            ?
+            // We know the first level items are only wrappers
+            <li class="my-2">
+              <h3
+                class="mt-2 first-letter:capitalize">
+                {menuItem.button}
+              </h3>
+              {menuItem.secondLevel &&
+                <ul class="ml-4 list-disc">
+                  {menuItem.secondLevel && menuItem.secondLevel.map((subMenuItem: MainMenuItem, subIndex: number) => {
+                    const activeClass = (asPath === subMenuItem.menuLink?.title) ? 'active-link': 'non-active-link';
+                    const ariaCurrentPage = (asPath === subMenuItem.menuLink?.title) ? 'page' : undefined;
+
+                    return(
+                      <Fragment key={`main-Fragment-sub-${subIndex}`}>
+                        {subMenuItem.element == 'button'
+                        // The second level items will be either wrappers or links
+                        ? <li class="my-2">
+                            <h4
+                              class="mt-2 first-letter:capitalize">
+                              {subMenuItem.button}
+                            </h4>
+                            <ul class="ml-4 list-disc">
+                              {subMenuItem.thirdLevel && subMenuItem.thirdLevel.map((lowerSubMenuItem: MainMenuItem) => {
+                                  const activeClassLower = (asPath === lowerSubMenuItem.menuLink?.title) ? 'active-link': 'non-active-link';
+                                  const ariaCurrentPageLower = (asPath === lowerSubMenuItem.menuLink?.title && lowerSubMenuItem.menuLink?.title !== '/') ? 'page' : undefined;
+                                  // The third level items are only links
+                                  return(
+                                    <li class="my-2">
+                                      <a href={`/${ lang }${ lowerSubMenuItem.menuLink?.title }/`} aria-current={ariaCurrentPageLower}
+                                        class={`${activeClassLower} block first-letter:capitalize`}
+                                      >
+                                        {lowerSubMenuItem.menuLink?.title}
+                                      </a>
+                                    </li>
+                                  )
+                              })}
+                            </ul>
+                          </li>
+                        : <li class="my-2">
+                            <a href={`/${ lang }${ subMenuItem.menuLink?.title }/`} aria-current={ariaCurrentPage}
+                              class={`${activeClass} block first-letter:capitalize`}
+                            >
+                              {subMenuItem.menuLink?.title}
+                            </a>
+                          </li>
+                        }
+                      </Fragment>
+                    )
+                  })}
+                </ul>
+              }
+            </li>
+          :
+          <Fragment key={`main-Fragment-top-${index}`}>
+            <li class="my-2">
+              <a href={`/${ lang }${ menuItem.menuLink?.title }/`} aria-current={ariaCurrentPageTop}
+                class={`${activeClassTop} block first-letter:capitalize`}
+              >
+                {menuItem.menuLink?.title}
+              </a>
+            </li>
+          </Fragment>
+        }
+        </Fragment>
+      );
+    })}
+  </ul>
+</div>
+<h2>{ t('name-info-menu') }</h2>
+<div>
+  <ul class="ml-8 list-disc">
+    {infoMenuItems.navigationLinks.map((menuItem: MainMenuItem, index: number) => {
+      const ariaCurrentPageTop = (asPath === menuItem.menuLink?.pageUrl) ? 'page' : undefined;
+      const activeClassTop = (asPath === menuItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
+
+      return (
+        <li class="my-2">
+          <a href={`/${ lang }${ menuItem.menuLink?.title }/`} aria-current={ariaCurrentPageTop}
+            class={`${menuItem} block first-letter:capitalize ${activeClassTop}`}
+          >
+            {menuItem.menuLink?.title}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</div>
