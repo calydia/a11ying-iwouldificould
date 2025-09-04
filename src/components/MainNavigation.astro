@@ -1,5 +1,6 @@
 ---
-import type { MainMenuItem } from '../interfaces/menuInterfaces';
+import fetchApi from '../lib/payload';
+import type { MainMenu, MainMenuItem } from '../interfaces/menuInterfaces';
 import { Icon } from 'astro-icon/components';
 
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
@@ -8,10 +9,12 @@ const t = useTranslations(lang);
 
 const asPath = Astro.props.currentUrl;
 
-const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=fi&trash=false';
-
-const mainMenu = await fetch(fetchUrl);
-const menuItems = await mainMenu.json();
+const menuItems = await fetchApi<MainMenu>({
+  endpoint: 'mainNav',
+  global: true,
+  menu: true,
+  lang: lang,
+});
 ---
 
 <nav id="main-menu-nav" aria-labelledby="main-menu-label" class="text-black dark:text-white py-1 mt-2 nav-bar">
@@ -110,7 +113,7 @@ const menuItems = await mainMenu.json();
                       :
                       <li class="my-1.5">
                         {secondLevelItem.menuLink &&
-                          <a href={`/${lang}${secondLevelItem.menuLink.pageUrl}/`} aria-current={ariaCurrentPage}
+                          <a href={`/${lang}/${secondLevelItem.menuLink.pageUrl}/`} aria-current={ariaCurrentPage}
                             class={`text-md p-1 block main-menu-link first-letter:capitalize ${activeClass}`}
                           >
                             { secondLevelItem.menuLink.title }
@@ -127,7 +130,7 @@ const menuItems = await mainMenu.json();
           :
             <li class="my-1.5">
               {menuItem.menuLink &&
-                <a href={`/${lang}${menuItem.menuLink.pageUrl}/`}>
+                <a href={`/${lang}/${menuItem.menuLink.pageUrl}/`}>
                   { menuItem.menuLink.title }
                 </a>
               }

@@ -16,7 +16,7 @@ const notFoundEn = await fetchApi<NotFound>({
 });
 
 const notFoundFi = await fetchApi<NotFound>({
-  endpoint: 'not-found',
+  endpoint: 'notFound',
   global: true,
   lang: 'fi'
 });
@@ -27,15 +27,15 @@ if (lang === 'fi') {
   notFound = notFoundFi;
 }
 
-const nodes = page.content[lang].root.children as RichTextNode[];
+const nodes = notFound.content.root.children as RichTextNode[];
 ---
 
-<Layout title={ notFound.attributes.title } locale={ notFound.attributes.locale}
+<Layout title={ notFound.title } locale={ lang }
   currentType="front" currentUrl="front" fiUrl="front" engUrl="front" alternateFi="fi" alternateEn="en"
 >
   <div class="max-w-[1564px] mx-auto md:px-8-px">
     <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
-      <h1 id="skip-target">{ notFound.attributes.title }</h1>
+      <h1 id="skip-target">{ notFound.title }</h1>
       <div class="text-xl bodytext">
         <RichText client:load nodes={nodes} lang={lang} />
       </div>

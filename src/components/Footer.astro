@@ -1,5 +1,6 @@
 ---
-import type { FooterMenuItem } from '../interfaces/menuInterfaces';
+import fetchApi from '../lib/payload';
+import type { FooterMenu, FooterMenuItem } from '../interfaces/menuInterfaces';
 
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
@@ -7,10 +8,12 @@ const t = useTranslations(lang);
 
 import { Icon } from 'astro-icon/components';
 
-const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=fi&trash=false';
-
-const footerMenu = await fetch(fetchUrl);
-const menuItems = await footerMenu.json();
+const menuItems = await fetchApi<FooterMenu>({
+  endpoint: 'footerNav',
+  global: true,
+  menu: true,
+  lang: lang,
+});
 
 const currentPath = '/' + Astro.props.currentPage;
 ---
@@ -26,15 +29,15 @@ const currentPath = '/' + Astro.props.currentPage;
     <nav aria-label={ t('footer-menu-aria') }>
       <ul>
       {menuItems.navigationLinks.map((menuItem: FooterMenuItem, index: number) => {
-        const ariaCurrentPage = (currentPath === menuItem.path) ? 'page' : undefined;
-        const activeClass = (currentPath === menuItem.path) ? 'active-link': 'non-active-link';
+        const ariaCurrentPage = (currentPath === menuItem.menuLink?.pageUrl) ? 'page' : undefined;
+        const activeClass = (currentPath === menuItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
 
         return (
           <li class="flex gap-4 items-center my-4 text-lt-blue-dark dark:text-dk-blue-light">
             <Icon name={menuItem.iconClass} class="h-8 w-8" />
-            <a href={`/${lang}${menuItem.menuLink.pageUrl}/`} aria-current={ariaCurrentPage} class={`${activeClass} py-3`}
+            <a href={`/${lang}${menuItem.menuLink?.pageUrl}/`} aria-current={ariaCurrentPage} class={`${activeClass} py-3`}
             >
-              {menuItem.menuLink.title}
+              {menuItem.menuLink?.title}
             </a>
           </li>
         );
