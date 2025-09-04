@@ -1,23 +1,23 @@
 ---
-import fetchApi from '../lib/payload';
-import { FrontPage } from '../interfaces/frontPage';
-import type { ExoveBlog } from '../interfaces/blogInterfaces';
-import Layout from '../layouts/Layout.astro';
-import BlogHighlights from '../components/BlogHighlights.astro';
-import ExoveBlogHighlights from '../components/ExoveBlogHighlights.astro';
-import RichText from '../components/RichText';
+import fetchApi from '../../lib/payload';
+import { FrontPage } from '../../interfaces/frontPage';
+import type { ExoveBlog } from '../../interfaces/blogInterfaces';
+import Layout from '../../layouts/Layout.astro';
+import BlogHighlights from '../../components/BlogHighlights.astro';
+import ExoveBlogHighlights from '../../components/ExoveBlogHighlights.astro';
+import RichText from '../../components/RichText';
 
 const frontPage = await fetchApi<FrontPage>({
   endpoint: 'frontPage',
   global: true,
-  lang: 'en'
+  lang: 'fi'
 });
 
 const posts = await fetchApi<ExoveBlog>({
   endpoint: 'blogCards',
   global: false,
   wrappedByKey: 'docs',
-  lang: 'en'
+  lang: 'fi'
 });
 
 const nodes = frontPage.content.root.children as RichTextNode[];
@@ -34,11 +34,10 @@ const nodes = frontPage.content.root.children as RichTextNode[];
       </div>
     </div>
   </div>
-  <BlogHighlights slot="blogs" />
   <ExoveBlogHighlights slot="blogs"
-    title="My newest blog posts on accessibility in Exove's blog"
-    intro="I'm also trying to do my part in Exove's mission to defrustrate the digital by sharing my accessibility knowledge in the company blog."
+    title="Uusimmat kirjoitukseni Exoven blogissa"
+    intro="Yritän tehdä osuuteni Exoven tavoitteessa poistaa digiturhautumista kirjoittamalla saavutettavuudesta Exoven blogissa."
     posts={posts}
-    bgClass="bg-blue"
-    />
+    bgClass="bg-gray"
+  />
 </Layout>

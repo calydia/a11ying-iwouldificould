@@ -1,11 +1,11 @@
 ---
-import fetchApi from '../lib/payload';
-import { FrontPage } from '../interfaces/frontPage';
-import type { ExoveBlog } from '../interfaces/blogInterfaces';
-import Layout from '../layouts/Layout.astro';
-import BlogHighlights from '../components/BlogHighlights.astro';
-import ExoveBlogHighlights from '../components/ExoveBlogHighlights.astro';
-import RichText from '../components/RichText';
+import fetchApi from '../../lib/payload';
+import { FrontPage } from '../../interfaces/frontPage';
+import type { ExoveBlog } from '../../interfaces/blogInterfaces';
+import Layout from '../../layouts/Layout.astro';
+import BlogHighlights from '../../components/BlogHighlights.astro';
+import ExoveBlogHighlights from '../../components/ExoveBlogHighlights.astro';
+import RichText from '../../components/RichText';
 
 const frontPage = await fetchApi<FrontPage>({
   endpoint: 'frontPage',

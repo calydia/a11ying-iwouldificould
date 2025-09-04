@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SearchComponent from '../../components/SearchComponent';
+
+---
+
+<Layout title="Site search" locale="en" metaDescription="Use the search feature to search for the site content. The search provides results on both languages."
+  engUrl="search" fiUrl="haku" currentUrl="search" currentSlug="search" alternateFi="fi/haku" alternateEn="en/search" type="search"
+  >
+  <div class="max-w-[1564px] mx-auto md:px-8-px">
+    <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
+      <h1 id="skip-target">Site search</h1>
+    </div>
+    <SearchComponent client:load searchLabel="Search for content" searchButton="Search" searchLangLabelEn="Content language: English"
+      searchLangLabelFi="Content language: Finnish" searchDescription="The search engine does not have language support yet so the search will provide you with both site languages."
+      searchResultPageLabel="Pages: " searchResultDemoLabel="Demos: " searchResultLabel="results" searchDemoLink="Jump to demo results"
+      searchNoResults="No results." searchMainHeading="Search results for:"
+    />
+  </div>
+</Layout>

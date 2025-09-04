@@ -1,9 +1,5 @@
-export default interface Page {
+export default interface FrontPage {
   id: number,
-  slug: {
-    en: string,
-    fi: string
-  }, 
   pageUrl: {
     en: string,
     fi: string,
