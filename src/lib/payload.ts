@@ -34,7 +34,7 @@ export default async function fetchApi<T>({
     lang = 'locale=*';
   }
 
-  let url = new URL(`${import.meta.env.PUBLIC_PAYLOAD_URL}/api/${endpoint}?${lang}`);
+  let url = new URL(`${import.meta.env.PUBLIC_PAYLOAD_URL}/api/${endpoint}?${lang}&limit=2000`);
 
   if (global) {
     url = new URL(`${import.meta.env.PUBLIC_PAYLOAD_URL}/api/globals/${endpoint}?${lang}`);

@@ -22,7 +22,7 @@ function collectHeadings(nodes: RichTextNode[]) {
     }
 
     if (node.type === 'block' && node.fields?.blockType === 'ContentBox') {
-      const text = node.fields?.heading.replace(' ', '-');
+      const text = node.fields?.heading?.replace(' ', '-');
       const id = slugify(text) || 'content-box';
       headings.push({ id, text, level: 'h2' });
     }
@@ -252,7 +252,9 @@ export default function RichText({
 
   const toc = useMemo(() => collectHeadings(nodes), [nodes]);
   const heading = (lang == 'en') ? 'On this page' : 'Tällä sivulla';
+  
 
+  if (withTOC) {
   return (
     <>
       {withTOC && toc.length > 0 && (
@@ -270,10 +272,14 @@ export default function RichText({
             </ul>
           </nav>
         </div>
-
-      )}
-
-      {nodes.map((node, i) => renderNode(node, i, lang))}
+      )}      
     </>
   );
+  } else {
+    return (
+      <>
+        {nodes.map((node, i) => renderNode(node, i, lang))}
+      </>
+    );
+  }
 }

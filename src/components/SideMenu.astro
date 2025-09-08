@@ -16,13 +16,11 @@ const firstPart = Astro.props.currentUrl.substring(0, Astro.props.currentUrl.ind
 const filteredMenu = menuItems.firstLevel.filter((menuItem: MainMenuItem) => menuItem.mainPath === firstPart);
 
 const pathParts = Astro.props.currentUrl.split('/');
-const secondPart = pathParts[2];
-
+const secondPart = pathParts[1];
 ---
 <aside class="hidden invisible md:block md:visible md:ml-2">
 
   {filteredMenu.map((menuItem: MainMenuItem, index: number) => {
-    const ariaCurrentPath = (asPath.includes(menuItem.mainPath) && menuItem.mainPath !== '/') ? true : undefined;
 
     return (
     <Fragment key={`fragment-${index}`}>
@@ -34,17 +32,21 @@ const secondPart = pathParts[2];
               <ul id={`side-menu-button-${index}`}
                 class="ml-2">
                 {menuItem.secondLevel && menuItem.secondLevel.map((subMenuItem: MainMenuItem, subIndex: number) => {
-                  const activeClass = (asPath === subMenuItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
-                  const ariaCurrentPage = (asPath === subMenuItem.menuLink?.pageUrl) ? 'page' : undefined;
-                  const titleModified = subMenuItem.button.replace(/\s+/g, '-').toLowerCase();
-                  const expanded = (asPath.includes(secondPart)) ? true : false;
+
+                  const activeClass = (asPath === subMenuItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
+                  const ariaCurrentPage = (secondPart == subMenuItem.menuPath) ? 'page' : undefined;
+                  const titleModified = subMenuItem.button?.replace(/\s+/g, '-').toLowerCase();
+                  const expanded = (secondPart == subMenuItem.menuPath) ? true : false;
 
                   return(
                     <Fragment key={`fragment-sub-${subIndex}`}>
                       {subMenuItem.element == 'button'
+
                       // If the element is a button
                       ? <li class="relative">
-                          <button aria-expanded={`${expanded}`} class="mobile-menu-toggle w-full flex items-center text-lt-gray dark:text-dk-gray">  
+                          <button aria-expanded={expanded} aria-current={ariaCurrentPage}
+                            class="mobile-menu-toggle w-full flex items-center text-lt-gray dark:text-dk-gray"
+                          >  
                             <span id={`sub-subMenuItem-heading-${subIndex}-${titleModified}`}
                               class={`sub-header flex gap-2 items-center text-lg px-1 py-2 mt-0 font-menu text-lt-gray dark:text-dk-gray ${subMenuItem.iconClass} max-lg:mt-2 max-lg:mb-1.5`}>
                               <Icon name={subMenuItem.iconClass} class="menu-icon" />
@@ -57,8 +59,8 @@ const secondPart = pathParts[2];
                           <ul id={`sub-menu-button-lower-${subIndex}-${titleModified}`} aria-labelledby={`subMenuItem-heading-${subIndex}-${titleModified}`}
                             class="ml-3 lg:ml-8 mb-0">
                             {subMenuItem.thirdLevel && subMenuItem.thirdLevel.map((lowerSubMenuItem: MainMenuItem) => {
-                                const activeClassLower = (asPath === lowerSubMenuItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
-                                const ariaCurrentPageLower = (asPath === lowerSubMenuItem.menuLink?.pageUrl && lowerSubMenuItem.menuLink?.pageUrl !== '/') ? 'page' : undefined;
+                                const activeClassLower = (asPath === lowerSubMenuItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
+                                const ariaCurrentPageLower = (asPath === lowerSubMenuItem.menuLink?.value.pageUrl && lowerSubMenuItem.menuLink?.value.pageUrl !== '/') ? 'page' : undefined;
 
                                 // On the third level we only have links
                                 return(
@@ -75,10 +77,10 @@ const secondPart = pathParts[2];
                         </li>
                       // If the element is a link
                       : <li class="my-1.5">
-                          <a href={`/${lang}/${subMenuItem.menuLink?.pageUrl}/`} aria-current={ariaCurrentPage}
+                          <a href={`/${lang}/${subMenuItem.menuLink?.value.pageUrl}/`} aria-current={ariaCurrentPage}
                             class={`text-base p-1 block first-letter:capitalize ${activeClass}`}
                           >
-                            {subMenuItem.menuLink?.title}
+                            {subMenuItem.menuLink?.value.title}
                           </a>
                         </li>
                       }

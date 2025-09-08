@@ -39,7 +39,7 @@ const menuItems = await fetchApi<MainMenu>({
           // If the first level element is a button
           ?
             <li class="m-2 static">
-              <button id={`button-${index}`} aria-expanded="false" aria-controls={`menu-button-${index}`} aria-haspopup="true"
+              <button id={`button-${index}`} aria-expanded="false" aria-controls={`menu-button-${index}`} aria-haspopup="true" aria-current={ ariaCurrentPath }
                 class={`menu-button font-light font-lato flex items-center text-left gap-2 text-black dark:text-white text-lg p-1 dark:text-shadow-text hover:text-lt-purple dark:hover:text-dk-blue-light hover:underline hover:decoration-2 hover:underline-offset-4 selection:focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white`}>
                 <span>{ menuItem.button }</span>
                 <Icon name="chevron-down-solid" class="menu-button--icon h-6 w-6" />
@@ -48,7 +48,7 @@ const menuItems = await fetchApi<MainMenu>({
               <ul id={`menu-button-${index}`}
                   class="menu-button-ul ml-2 lg:absolute lg:mt-6 lg:z-20 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-8 lg:w-[100%] lg:max-w-screen-menu lg:mx-auto lg:left-0 lg:right-0 lg:p-4 lg:border-t-8 lg:border-solid lg:border-black lg:dark:border-white lg:bg-lt-code-bg lg:dark:bg-dk-code-bg">
                 {menuItem.secondLevel && menuItem.secondLevel.map((secondLevelItem: MainMenuItem, secondIndex: number) => {
-                  const activeClass = (asPath === secondLevelItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
+                  const activeClass = (asPath === secondLevelItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
                   const ariaCurrentPage = (asPath === secondLevelItem.menuLink?.pageUrl) ? 'page' : undefined;
                   const titleModified = secondLevelItem.button?.replace(/\s+/g, '-').toLowerCase();
                   
@@ -72,8 +72,8 @@ const menuItems = await fetchApi<MainMenu>({
                           <ul id={`menu-button-lower-${secondIndex}-${titleModified}`} aria-labelledby={`subMenuItem-heading-${secondIndex}-${titleModified}`}
                               class="ml-3 menu-lower-level lg:ml-8">
                             {secondLevelItem.thirdLevel && secondLevelItem.thirdLevel.map((thirdLevelItem: MainMenuItem, thirdIndex: number) => {
-                                const activeClassLower = (asPath === thirdLevelItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
-                                const ariaCurrentPageLower = (asPath === thirdLevelItem.menuLink?.pageUrl && thirdLevelItem.menuLink?.pageUrl !== '/') ? 'page' : undefined;
+                                const activeClassLower = (asPath === thirdLevelItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
+                                const ariaCurrentPageLower = (asPath === thirdLevelItem.menuLink?.value.pageUrl && thirdLevelItem.menuLink?.pageUrl !== '/') ? 'page' : undefined;
 
                               return (
                                 <Fragment key={`fragment-sub-${thirdIndex}`}>

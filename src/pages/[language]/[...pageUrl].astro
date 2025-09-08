@@ -51,7 +51,7 @@ const leadNodes = (page.lead[lang]) ? page.lead[lang].root.children as RichTextN
       {leadNodes &&
         <div class="text-xl bodytext"><RichText client:load nodes={leadNodes} lang={lang} /></div>
       }
-      
+
       {nodes &&
         <RichText client:load nodes={nodes} lang={lang} withTOC={true} />
         
