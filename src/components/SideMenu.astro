@@ -63,10 +63,10 @@ const secondPart = pathParts[2];
                                 // On the third level we only have links
                                 return(
                                   <li class="my-1.5">
-                                    <a href={`/${lang}/${lowerSubMenuItem.menuLink?.pageUrl}/`} aria-current={ariaCurrentPageLower}
+                                    <a href={`/${lang}/${lowerSubMenuItem.menuLink?.value.pageUrl}/`} aria-current={ariaCurrentPageLower}
                                       class={`text-base p-1 block first-letter:capitalize ${activeClassLower}`}
                                     >
-                                      {lowerSubMenuItem.menuLink?.title}
+                                      {lowerSubMenuItem.menuLink?.value.title}
                                     </a>
                                   </li>
                                 )
