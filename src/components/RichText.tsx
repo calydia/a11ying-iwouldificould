@@ -85,7 +85,6 @@ const renderers: Record<
       href={node.fields?.url}
       target={node.fields?.newTab ? '_blank' : undefined}
       rel={node.fields?.newTab ? 'noopener noreferrer' : undefined}
-      className="text-blue-600 underline"
     >
       {children}
     </a>

@@ -8,6 +8,7 @@ import Breadcrumb from '../components/Breadcrumb.astro';
 import SideMenu from '../components/SideMenu.astro';
 import Footer from '../components/Footer.astro';
 import { Icon } from 'astro-icon/components';
+import SearchBlock from '../components/SearchBlock.astro';
 
 import { useTranslations } from '../i18n/utils';
 
@@ -50,7 +51,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
       dark:from-dk-purple-header dark:via-dk-blue-header dark:to-dk-purple-header">
       <SkipLink skipId="skip" skipTarget="#skip-target" skipTextVariable="skip-link-text" />
       <div class="flex flex-wrap justify-end gap-1">
-        <!-- <SearchBlock locale={locale} /> -->
+        <SearchBlock locale={locale} />
         <LanguageSwitcher englishURL={ engUrl } finnishURL={ fiUrl } currentPage={ currentUrl } type={ type } />
         <ThemeToggle />
       </div>
@@ -237,6 +238,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
     @apply bg-lt-perfume dark:bg-dk-purple-header absolute block z-[-1] bottom-0 w-10 h-2.5;
   }
 
+  .search-heading::before,
   .a11y-heading::before {
     @apply hidden invisible;  
   }
@@ -482,7 +484,8 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
   }
 
   input[type="text"] {
-    @apply py-3.5 px-4 my-2 text-black border-2 m-0 border-solid border-black dark:border-white;
+    @apply py-3.5 px-4 my-2 text-lt-gray border-2 m-0 border-solid border-lt-gray bg-lt-bg ;
+    @apply dark:text-dk-gray dark:bg-dk-blue-darkest dark:border-dk-gray;
     @apply focus:outline focus:outline-2 focus:outline-offset-4	focus:outline-black dark:focus:outline-white;
   }
 
