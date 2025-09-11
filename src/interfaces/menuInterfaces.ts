@@ -27,6 +27,7 @@ export interface MainMenu {
       iconClass?: string,
       button?: string,
       mainPath?: string,
+      menuPath?: string,
       menuLink?: {
         value: {
           title: string,
