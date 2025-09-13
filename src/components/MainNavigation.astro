@@ -73,7 +73,7 @@ const menuItems = await fetchApi<MainMenu>({
                               class="ml-3 menu-lower-level lg:ml-8">
                             {secondLevelItem.thirdLevel && secondLevelItem.thirdLevel.map((thirdLevelItem: MainMenuItem, thirdIndex: number) => {
                                 const activeClassLower = (asPath === thirdLevelItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
-                                const ariaCurrentPageLower = (asPath === thirdLevelItem.menuLink?.value.pageUrl && thirdLevelItem.menuLink?.pageUrl !== '/') ? 'page' : undefined;
+                                const ariaCurrentPageLower = (asPath === thirdLevelItem.menuLink?.value.pageUrl && thirdLevelItem.menuLink?.value.pageUrl !== '/') ? 'page' : undefined;
 
                               return (
                                 <Fragment key={`fragment-sub-${thirdIndex}`}>
@@ -130,8 +130,8 @@ const menuItems = await fetchApi<MainMenu>({
           :
             <li class="my-1.5">
               {menuItem.menuLink &&
-                <a href={`/${lang}/${menuItem.menuLink.pageUrl}/`}>
-                  { menuItem.menuLink.title }
+                <a href={`/${lang}/${menuItem.menuLink.value.pageUrl}/`}>
+                  { menuItem.menuLink.value.title }
                 </a>
               }
             </li>

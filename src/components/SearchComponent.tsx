@@ -21,7 +21,7 @@ export default function SearchComponent({ searchLabel, searchButton, searchMainH
   const [searchPageResult, setSearchPageResult] = useState<any>();
   const [totalEstimatedHits, setTotalEstimatedHits] = useState<ReactNode>();
   const [sentSearchWords, setSentSearchWords] = useState("");
-  const [site, setSite] = useState("");;
+  const [site, setSite] = useState("");
 
   const getSiteName = (name: string, locale: string) => {
     const subSiteTypes = [
@@ -122,7 +122,7 @@ export default function SearchComponent({ searchLabel, searchButton, searchMainH
       },
     };
 
-    const searchItems = await fetchApi<Search>({
+    const searchItems = await fetchApi<SearchResults>({
       endpoint: 'search',
       global: false,
       lang: locale,

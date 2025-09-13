@@ -1,8 +1,8 @@
 ---
 import fetchApi from '../lib/payload';
-import type { glossaryData, glossaryItem } from '../interfaces/glossaryInterfaces';
+import type glossaryItem from '../interfaces/glossaryInterface';
 
-const glossaryTerms = await fetchApi<glossaryData[]>({
+const glossaryTerms = await fetchApi<glossaryItem[]>({
   endpoint: 'glossaryItems',
   wrappedByKey: 'docs',
   lang: Astro.props.currentLang,

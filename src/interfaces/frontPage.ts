@@ -1,4 +1,4 @@
-import type { RichTextNode } from './RichText';
+import type RichTextNode from './RichText';
 
 export default interface FrontPage {
   id: number,

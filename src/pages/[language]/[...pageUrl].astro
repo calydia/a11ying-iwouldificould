@@ -15,7 +15,7 @@ export async function getStaticPaths() {
     wrappedByKey: 'docs',
   });
 
-  const languages = ['en', 'fi'];
+  const languages = ['en', 'fi'] as const;
 
   return pages.flatMap((page: Page) =>
     languages.map((lang) => ({
@@ -31,10 +31,12 @@ export async function getStaticPaths() {
   );
 }
 
-type Props = Page & { lang: string };
+type LangKey = 'en' | 'fi';
+interface Props extends Page {
+  lang: LangKey;
+}
+const { lang, ...page } = Astro.props as Props;
 
-const page = Astro.props;
-const lang = page.lang;
 const t = useTranslations(lang);
 
 const nodes = (page.content[lang]) ? page.content[lang].root.children as RichTextNode[] : null;
