@@ -1,6 +1,6 @@
 ---
 import fetchApi from '../../lib/payload';
-import { FrontPage } from '../../interfaces/frontPage';
+import type FrontPage from '../../interfaces/frontPage';
 import type { ExoveBlog } from '../../interfaces/blogInterfaces';
 import Layout from '../../layouts/Layout.astro';
 import BlogHighlights from '../../components/BlogHighlights.astro';
@@ -17,7 +17,8 @@ const posts = await fetchApi<ExoveBlog>({
   endpoint: 'blogCards',
   global: false,
   wrappedByKey: 'docs',
-  lang: 'en'
+  lang: 'en',
+  sort: '-date'
 });
 
 const nodes = frontPage.content.root.children as RichTextNode[];

@@ -19,14 +19,17 @@ const bgClass = Astro.props.bgClass;
     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
     <ul class="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-8" role="list">
       {posts.map((blogPost: BlogPost) => {
+        const date = new Date(blogPost.date);
+        const printDate = date.toLocaleDateString();
+
         return (
           <li class="grid items-stretch p-2 border-solid border-4 gradient-border-light bg-lt-blue-light text-lt-gray
           dark:gradient-border-dark dark:bg-dk-purple dark:text-white
           ">
-            <a href={blogPost.url} class="post-link border-2 border-transparent focus:outline focus:outline-4 focus:outline-offset-15	focus:outline-black dark:focus:outline-white hover:border-lt-purple dark:hover:border-dk-blue-light">
+            <a href={ blogPost.url } class="post-link border-2 border-transparent focus:outline focus:outline-4 focus:outline-offset-15	focus:outline-black dark:focus:outline-white hover:border-lt-purple dark:hover:border-dk-blue-light">
               { blogPost.image &&
                 <Image
-                  src={`${import.meta.env.PUBLIC_PAYLOAD_URL}${blogPost.image.url}`}
+                  src={`${import.meta.env.PUBLIC_PAYLOAD_URL}${ blogPost.image.url }`}
                   alt=""
                   densities={[1.5, 2]}
                   width={1025}
@@ -37,11 +40,11 @@ const bgClass = Astro.props.bgClass;
                 <span class="post-title block text-lg font-bold md:text-2xl py-4 px-2
                 after:bg-black after:h-0.5 after:block after:w-10 after:mt-4 after:mb-0 after:mx-auto after:content-['']
                 dark:after:bg-white">
-                  {blogPost.title}
+                  { blogPost.title }
                 </span>
                 <span class="sr-only">on</span>
                 <span class="block text-base md:text-xl pb-4">
-                  {blogPost.date}
+                  { printDate }
                 </span>
               </div>
             </a>

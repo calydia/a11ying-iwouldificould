@@ -1,3 +1,5 @@
+import type { RichTextNode } from './RichText';
+
 export default interface FrontPage {
   id: number,
   pageUrl: {
@@ -12,4 +14,9 @@ export default interface FrontPage {
     en: string,
     fi: string,
   },
+    content: {
+      root: {
+        children: RichTextNode[];
+      }
+    }
 }

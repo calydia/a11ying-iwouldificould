@@ -1,4 +1,4 @@
-export interface RichTextNode {
+export default interface RichTextNode {
   demoContent: boolean;
   format?: number | string;
   tag?: number;
