@@ -2,9 +2,10 @@
 import fetchApi from '../../lib/payload';
 import type Page from '../../interfaces/page';
 import RichText from '../../components/RichText';
-import type { RichTextNode } from '../../interfaces/RichText';
+import type RichTextNode from '../../interfaces/RichText';
 import { useTranslations } from '../../i18n/utils';
 import Layout from '../../layouts/Layout.astro';
+import Glossary from '../../components/Glossary.astro';
 import HumanSitemap from '../../components/HumanSitemap.astro';
 
 export async function getStaticPaths() {
@@ -57,7 +58,10 @@ const leadNodes = (page.lead[lang]) ? page.lead[lang].root.children as RichTextN
         
         <div class="text-xl bodytext"><RichText client:load nodes={nodes} lang={lang} /></div>
       }
-    
+      { (page.slug[lang] === "glossary" || page.slug[lang] === 'sanasto') ?
+        <Glossary currentLang={ lang } />
+      : null }
+  
     { (page.slug[lang] === "sitemap" || page.slug[lang] === 'sivukartta') ?
         <HumanSitemap currentUrl={ page.pageUrl[lang] } />
       : null }

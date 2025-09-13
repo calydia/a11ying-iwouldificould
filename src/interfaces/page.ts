@@ -1,3 +1,4 @@
+import type { RichTextNode } from './RichText';
 export default interface Page {
   id: number,
   slug: {
@@ -16,4 +17,14 @@ export default interface Page {
     en: string,
     fi: string,
   },
+  lead: {
+    root: {
+      children: RichTextNode[];
+    }
+  },
+  content: {
+    root: {
+      children: RichTextNode[];
+    }
+  }
 }

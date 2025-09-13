@@ -1,0 +1,21 @@
+---
+import fetchApi from '../lib/payload';
+import type { glossaryData, glossaryItem } from '../interfaces/glossaryInterfaces';
+
+const glossaryTerms = await fetchApi<glossaryData[]>({
+  endpoint: 'glossaryItems',
+  wrappedByKey: 'docs',
+  lang: Astro.props.currentLang,
+  sort: 'term'
+});
+---
+
+<dl class="grid grid-cols-5 gap-2 gap-y-6 items-start">
+  {glossaryTerms.map((glossaryTerm: glossaryItem) => {
+
+    return (
+      <dt class="text-blue-tory dark:text-lt-perfume col-span-1">{ glossaryTerm.term }</dt>
+      <dd class="ml-8 glossary-term col-span-4"><Fragment set:html={ glossaryTerm.termDescription } /></dd>
+    );
+  })}
+</dl>
