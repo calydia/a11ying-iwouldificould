@@ -5,6 +5,7 @@ import type glossaryItem from '../interfaces/glossaryInterface';
 const glossaryTerms = await fetchApi<glossaryItem[]>({
   endpoint: 'glossaryItems',
   wrappedByKey: 'docs',
+  global: false,
   lang: Astro.props.currentLang,
   sort: 'term'
 });
