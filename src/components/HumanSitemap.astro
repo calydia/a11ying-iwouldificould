@@ -105,15 +105,15 @@ const infoMenuItems = await fetchApi<FooterMenu>({
 <div>
   <ul class="ml-8 list-disc">
     {infoMenuItems.navigationLinks.map((menuItem: FooterMenuItem, index: number) => {
-      const ariaCurrentPageTop = (asPath === menuItem.menuLink?.value.pageUrl) ? 'page' : undefined;
-      const activeClassTop = (asPath === menuItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
+      const ariaCurrentPageTop = (asPath === menuItem.menuLink?.pageUrl) ? 'page' : undefined;
+      const activeClassTop = (asPath === menuItem.menuLink?.pageUrl) ? 'active-link': 'non-active-link';
 
       return (
         <li class="my-2">
-          <a href={`/${ lang }${ menuItem.menuLink?.value.title }/`} aria-current={ariaCurrentPageTop}
+          <a href={`/${ lang }${ menuItem.menuLink?.title }/`} aria-current={ariaCurrentPageTop}
             class={`${menuItem} block first-letter:capitalize ${activeClassTop}`}
           >
-            {menuItem.menuLink?.value.title}
+            {menuItem.menuLink?.title}
           </a>
         </li>
       );
