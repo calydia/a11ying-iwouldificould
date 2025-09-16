@@ -5,6 +5,7 @@ import fetchApi from '../lib/payload';
 
 import { stringify } from 'qs-esm'
 
+
 export default function SearchComponent({ searchLabel, searchButton, searchMainHeading,
   searchResultLabel, searchNoResults, searchLocale, searchSiteName, searchContentType }: {
   searchLabel: string,
@@ -16,6 +17,8 @@ export default function SearchComponent({ searchLabel, searchButton, searchMainH
   searchSiteName: string,
   searchContentType: string,
 }) {
+
+  
 
   const [searchWords, setSearchWords] = useState("");
   const [searchPageResult, setSearchPageResult] = useState<any>();
@@ -135,7 +138,7 @@ export default function SearchComponent({ searchLabel, searchButton, searchMainH
 
   const GetSearchResults = async (searchWords: string) => {
     try {
-      searchDocs(searchWords, 'en');
+      searchDocs(searchWords, searchLocale);
     }
     catch (e) {
       console.error(e);
