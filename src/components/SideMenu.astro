@@ -1,5 +1,6 @@
 ---
-import type { MainMenuItem } from '../interfaces/menuInterfaces';
+import fetchApi from '../lib/payload';
+import type { MainMenuItem, MainMenu } from '../interfaces/menuInterfaces';
 import { Icon } from 'astro-icon/components';
 
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
@@ -8,9 +9,12 @@ const t = useTranslations(lang);
 
 const asPath = Astro.props.currentUrl;
 
-const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=fi&trash=false';
-const sideMenu = await fetch(fetchUrl);
-const menuItems = await sideMenu.json();
+const menuItems = await fetchApi<MainMenu>({
+  endpoint: 'mainNav',
+  global: true,
+  menu: true,
+  lang: lang,
+});
 
 const firstPart = Astro.props.currentUrl.substring(0, Astro.props.currentUrl.indexOf("/"));
 const filteredMenu = menuItems.firstLevel.filter((menuItem: MainMenuItem) => menuItem.mainPath === firstPart);

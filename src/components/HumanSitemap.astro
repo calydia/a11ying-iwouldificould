@@ -1,18 +1,25 @@
 ---
+import fetchApi from '../lib/payload';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import type { MainMenuItem } from '../interfaces/menuInterfaces';
+import type { MainMenuItem, MainMenu, FooterMenu, FooterMenuItem } from '../interfaces/menuInterfaces';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const asPath = Astro.props.currentUrl;
 
-const fetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/mainNav?depth=2&draft=false&locale=fi&trash=false';
-const mainMenu = await fetch(fetchUrl);
-const mainMenuItems = await mainMenu.json();
+const mainMenuItems = await fetchApi<MainMenu>({
+  endpoint: 'mainNav',
+  global: true,
+  menu: true,
+  lang: lang,
+});
 
-const infoFetchUrl = (Astro.props.locale == 'en') ? 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=en&trash=false' : 'http://localhost:3000/api/globals/footerNav?depth=2&draft=false&locale=fi&trash=false';
-const infoMenu = await fetch(infoFetchUrl);
-const infoMenuItems = await infoMenu.json();
+const infoMenuItems = await fetchApi<FooterMenu>({
+  endpoint: 'footerNav',
+  global: true,
+  menu: true,
+  lang: lang,
+});
 ---
 
 <h2>{ t('name-main-menu') }</h2>
@@ -97,7 +104,7 @@ const infoMenuItems = await infoMenu.json();
 <h2>{ t('name-info-menu') }</h2>
 <div>
   <ul class="ml-8 list-disc">
-    {infoMenuItems.navigationLinks.map((menuItem: MainMenuItem, index: number) => {
+    {infoMenuItems.navigationLinks.map((menuItem: FooterMenuItem, index: number) => {
       const ariaCurrentPageTop = (asPath === menuItem.menuLink?.value.pageUrl) ? 'page' : undefined;
       const activeClassTop = (asPath === menuItem.menuLink?.value.pageUrl) ? 'active-link': 'non-active-link';
 
