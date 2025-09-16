@@ -54,7 +54,7 @@ export default async function fetchApi<T>({
   }
 
   if (endpoint == 'search') {
-    url = new URL(`${import.meta.env.PUBLIC_PAYLOAD_URL}/api/${endpoint}?${lang}$&${searchString}&pagination=false`);
+    url = new URL(`${import.meta.env.PUBLIC_PAYLOAD_URL}/api/${endpoint}?${lang}&${searchString}&pagination=false`);
   }
 
   const res = await fetch(url.toString());

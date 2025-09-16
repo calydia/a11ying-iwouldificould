@@ -202,7 +202,7 @@ export default function SearchComponent({ searchLabel, searchButton, searchMainH
       : null }
 
       {(totalEstimatedHits as number == 0) ?
-      <p>No results.</p>
+      <p>{ searchNoResults }</p>
       : null}
     </div>
     </div>
