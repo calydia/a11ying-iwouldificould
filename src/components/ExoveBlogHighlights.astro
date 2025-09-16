@@ -20,7 +20,7 @@ const bgClass = Astro.props.bgClass;
     <ul class="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-8" role="list">
       {posts.map((blogPost: BlogPost) => {
         const date = new Date(blogPost.date);
-        const printDate = date.toLocaleDateString();
+        const printDate = date.toLocaleDateString("fi-FI");
 
         return (
           <li class="grid items-stretch p-2 border-solid border-4 gradient-border-light bg-lt-blue-light text-lt-gray
