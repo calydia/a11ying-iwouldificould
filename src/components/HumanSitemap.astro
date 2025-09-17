@@ -72,7 +72,12 @@ const infoMenuItems = await fetchApi<FooterMenu>({
                             </ul>
                           </li>
                         : <li class="my-2">
-                            <a href={`/${ lang }/${ subMenuItem.menuLink?.value.pageUrl }/`} aria-current={ariaCurrentPage}
+                            <a href={`/${lang}/${
+                                subMenuItem.menuLink?.relationTo === 'demopages'
+                                  ? `demo/${subMenuItem.menuLink.value.pageUrl}`
+                                  : subMenuItem.menuLink?.value.pageUrl
+                              }/`}
+                              aria-current={ariaCurrentPage}
                               class={`${activeClass} block first-letter:capitalize`}
                             >
                               {subMenuItem.menuLink?.value.title}

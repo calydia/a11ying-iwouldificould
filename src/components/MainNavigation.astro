@@ -96,7 +96,13 @@ const menuItems = await fetchApi<MainMenu>({
                                   :
                                     <li class="my-1.5">
                                       {thirdLevelItem.menuLink &&
-                                        <a href={`/${lang}/${thirdLevelItem.menuLink.value.pageUrl}/`} aria-current={ariaCurrentPageLower}
+                                        // Add 'demo' to the url if the link is a demo page. This is done because the demo part is not in Payload but only in Astro.
+                                        <a href={`/${lang}/${
+                                            thirdLevelItem.menuLink.relationTo === 'demopages'
+                                              ? `demo/${thirdLevelItem.menuLink.value.pageUrl}`
+                                              : thirdLevelItem.menuLink.value.pageUrl
+                                          }/`}
+                                          aria-current={ariaCurrentPageLower}
                                           class={`text-md p-1 block main-menu-link first-letter:capitalize ${activeClassLower}`}
                                         >
                                           { thirdLevelItem.menuLink.value.title }

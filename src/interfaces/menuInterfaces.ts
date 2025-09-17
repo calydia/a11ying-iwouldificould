@@ -29,6 +29,7 @@ export interface MainMenu {
       mainPath?: string,
       menuPath?: string,
       menuLink?: {
+        relationTo: string,
         value: {
           title: string,
           pageUrl: string,
@@ -47,6 +48,7 @@ export interface MainMenuItem {
   mainPath?: string,
   menuPath?: string,
   menuLink?: {
+    relationTo: string,
     value: {
       title: string,
       pageUrl: string,
