@@ -93,7 +93,7 @@ const infoMenuItems = await fetchApi<FooterMenu>({
           :
           <Fragment key={`main-Fragment-top-${index}`}>
             <li class="my-2">
-              <a href={`/${ lang }${ menuItem.menuLink?.value.title }/`} aria-current={ariaCurrentPageTop}
+              <a href={`/${ lang }/${ menuItem.menuLink?.value.title }/`} aria-current={ariaCurrentPageTop}
                 class={`${activeClassTop} block first-letter:capitalize`}
               >
                 {menuItem.menuLink?.value.title}
@@ -115,7 +115,7 @@ const infoMenuItems = await fetchApi<FooterMenu>({
 
       return (
         <li class="my-2">
-          <a href={`/${ lang }${ menuItem.menuLink?.title }/`} aria-current={ariaCurrentPageTop}
+          <a href={`/${ lang }/${ menuItem.menuLink?.title }/`} aria-current={ariaCurrentPageTop}
             class={`${menuItem} block first-letter:capitalize ${activeClassTop}`}
           >
             {menuItem.menuLink?.title}
