@@ -61,7 +61,12 @@ const infoMenuItems = await fetchApi<FooterMenu>({
                                   // The third level items are only links
                                   return(
                                     <li class="my-2">
-                                      <a href={`/${ lang }/${ lowerSubMenuItem.menuLink?.value.pageUrl }/`} aria-current={ariaCurrentPageLower}
+                                      <a href={`/${ lang }/${
+                                          lowerSubMenuItem.menuLink?.relationTo === 'demopages'
+                                            ? `demo/${lowerSubMenuItem.menuLink.value.pageUrl}`
+                                            : lowerSubMenuItem.menuLink?.value.pageUrl
+                                        }/`}
+                                        aria-current={ariaCurrentPageLower}
                                         class={`${activeClassLower} block first-letter:capitalize`}
                                       >
                                         {lowerSubMenuItem.menuLink?.value.title}
@@ -93,7 +98,12 @@ const infoMenuItems = await fetchApi<FooterMenu>({
           :
           <Fragment key={`main-Fragment-top-${index}`}>
             <li class="my-2">
-              <a href={`/${ lang }/${ menuItem.menuLink?.value.pageUrl }/`} aria-current={ariaCurrentPageTop}
+              <a href={`/${ lang }/${
+                  menuItem.menuLink?.relationTo === 'demopages'
+                    ? `demo/${menuItem.menuLink?.value.pageUrl}`
+                    : menuItem.menuLink?.value.pageUrl
+                }/`}
+                aria-current={ariaCurrentPageTop}
                 class={`${activeClassTop} block first-letter:capitalize`}
               >
                 {menuItem.menuLink?.value.title}
