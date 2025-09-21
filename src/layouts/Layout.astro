@@ -16,7 +16,7 @@ import '@fontsource/satisfy';
 import '@fontsource/atkinson-hyperlegible';
 import '@fontsource/lato';
 
-const { title, locale, metaDescription, engUrl, fiUrl, currentUrl, type, currentType } = Astro.props
+const { title, locale, metaDescription, engUrl, fiUrl, currentUrl, type, currentType, currentSlug } = Astro.props
 
 const t = useTranslations(locale);
 
@@ -43,7 +43,24 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
     <link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicons/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/manifest.json">
-    <link rel="sitemap" href="/sitemap-index.xml" />  
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    { (currentType == "front" && locale == 'en')  ?
+      <meta property="og:url" content="https://a11y.ing/en/" />
+      <link rel="canonical" href="https://a11y.ing/en/" />
+    : null }
+    { (currentType == "front" && locale == 'fi')  ?
+      <meta property="og:url" content="https://a11y.ing/fi/" />
+      <link rel="canonical" href="https://a11y.ing/fi/" />
+    : null }
+    { (type !== "front" && type !=="demo") ?
+      <meta property="og:url" content={`https://a11y.ing/${locale}/${currentUrl}/`} />
+      <link rel="canonical" href={`https://a11y.ing/${locale}/${currentUrl}/`} />
+    : null }
+    { (type == "demo") ?
+      <meta property="og:url" content={`https://a11y.ing/${locale}/demo/${currentUrl}/`} />
+      <link rel="canonical" href={`https://a11y.ing/${locale}/demo/${currentUrl}/`} />
+    : null }
+
   </head>
   <body class="font-sans hyphens-auto">
 
@@ -72,7 +89,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
     </header>
     <MainImage />
     { (currentType !== "front") ?
-      <Breadcrumb currentTitle={ title } currentUrl={ currentUrl } gridClass={crumbClass} type={ type } />
+      <Breadcrumb currentTitle={ title } currentUrl={ currentUrl } currentSlug={ currentSlug } gridClass={crumbClass} type={ type } />
     : null }
     <main class={`text-lg lg:text-xl mb-8 md:mb-12 max-w-7xl md:mx-auto ${gridClass}`}>
       { (currentType !== "front" && !currentUrl.includes('/info/')) ?

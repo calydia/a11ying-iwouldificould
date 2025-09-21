@@ -43,7 +43,7 @@ const nodes = (page.content[lang]) ? page.content[lang].root.children as RichTex
 <Layout title={ page.title[lang] } locale={ lang } metaDescription={ page.metaDescription[lang] }
   currentType="page" currentUrl={ page.pageUrl[lang] } 
   fiUrl={ page.pageUrl['fi'] ? page.pageUrl['fi'] : null } engUrl={ page.pageUrl['en'] ? page.pageUrl['en'] : null }
-  alternateFi="fi" alternateEn="en" type="demo"
+  alternateFi="fi" alternateEn="en" type="demo" currentSlug={ page.slug[lang] }
 >
   <div class="max-w-[1564px] mx-auto md:px-8-px">
     <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">

@@ -23,7 +23,6 @@ const currentTitleCap = currentTitle.charAt(0).toUpperCase() + currentTitle.slic
 const pageType = Astro.props.type;
 const demoTitle = lang == 'en' ? 'Demos' : 'Demot';
 
-
 ---
 
 <nav aria-label={ t('breadcrumb-aria') } class={`${Astro.props.gridClass} breadcrumb p-4-px md:px-8-px text-lt-gray dark:text-dk-gray`}>
@@ -57,6 +56,8 @@ const demoTitle = lang == 'en' ? 'Demos' : 'Demot';
 
       if (menuItem == currentSlug) {
         menuTitle = currentTitleCap;
+
+        
       } else {
         const menuTitleName = menuItem.replaceAll('-', ' ');
         menuTitle = menuTitleName.charAt(0).toUpperCase() + menuTitleName.slice(1);
