@@ -252,7 +252,6 @@ export default function RichText({
   const toc = useMemo(() => collectHeadings(nodes), [nodes]);
   const heading = (lang == 'en') ? 'On this page' : 'Tällä sivulla';
   
-console.log(toc);
   if (withTOC) {
   return (
     <>
