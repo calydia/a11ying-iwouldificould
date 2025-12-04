@@ -9,6 +9,16 @@ import icon from "astro-icon";
 export default defineConfig({
   site: 'https://a11y.ing/',
   trailingSlash: 'always',
+  redirects: {
+    "/koodia-suomesta": {
+      status: 302,
+      destination: "/fi/"
+    },
+    "/drupalcamp": {
+      status: 302,
+      destination: "/"
+    }
+  },
   integrations: [sitemap({
     i18n: {
       defaultLocale: 'en',
