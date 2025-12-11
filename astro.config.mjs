@@ -17,6 +17,10 @@ export default defineConfig({
     "/drupalcamp": {
       status: 302,
       destination: "/"
+    },
+    "/en/fundamentals/the-basics/who-accessibility-is-for" : {
+      status: 302,
+      destination: "/en/fundamentals/the-basics/who-is-accessibility-for"
     }
   },
   integrations: [sitemap({
