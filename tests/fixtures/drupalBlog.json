@@ -1,0 +1,84 @@
+{
+  "data": [
+    {
+      "type": "node--article",
+      "id": "article-1",
+      "attributes": {
+        "title": "Personal Blog Post One",
+        "path": { "alias": "/post-one" },
+        "created": "2024-01-01T00:00:00.000Z"
+      },
+      "relationships": {
+        "field_blog_listing_image": {
+          "data": { "type": "media--image", "id": "media-1" }
+        }
+      }
+    },
+    {
+      "type": "node--article",
+      "id": "article-2",
+      "attributes": {
+        "title": "Personal Blog Post Two",
+        "path": { "alias": "/post-two" },
+        "created": "2024-01-02T00:00:00.000Z"
+      },
+      "relationships": {
+        "field_blog_listing_image": {
+          "data": { "type": "media--image", "id": "media-2" }
+        }
+      }
+    },
+    {
+      "type": "node--article",
+      "id": "article-3",
+      "attributes": {
+        "title": "Personal Blog Post Three",
+        "path": { "alias": "/post-three" },
+        "created": "2024-01-03T00:00:00.000Z"
+      },
+      "relationships": {
+        "field_blog_listing_image": {
+          "data": { "type": "media--image", "id": "media-3" }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "media--image",
+      "id": "media-1",
+      "relationships": {
+        "field_media_image": { "data": { "type": "file--file", "id": "file-1" } }
+      }
+    },
+    {
+      "type": "media--image",
+      "id": "media-2",
+      "relationships": {
+        "field_media_image": { "data": { "type": "file--file", "id": "file-2" } }
+      }
+    },
+    {
+      "type": "media--image",
+      "id": "media-3",
+      "relationships": {
+        "field_media_image": { "data": { "type": "file--file", "id": "file-3" } }
+      }
+    },
+    {
+      "type": "file--file",
+      "id": "file-1",
+      "attributes": { "uri": { "url": "/sites/default/files/one.jpg" } }
+    },
+    {
+      "type": "file--file",
+      "id": "file-2",
+      "attributes": { "uri": { "url": "/sites/default/files/two.jpg" } }
+    },
+    {
+      "type": "file--file",
+      "id": "file-3",
+      "attributes": { "uri": { "url": "/sites/default/files/three.jpg" } }
+    }
+  ]
+}

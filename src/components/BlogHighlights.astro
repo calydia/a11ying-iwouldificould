@@ -6,7 +6,8 @@ import type { NodeArticle, MediaType } from '../interfaces/jsonInterfaces';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 
-const drupalArticles = await fetch('https://drupal.ampere.corrupted.pw/blogs/node/article?sort=-created&page[limit]=3&filter[field_blog_category.id][value]=a4bd8146-d52f-471f-9c07-bff738f81a47&include=field_blog_listing_image.field_media_image&fields[file--file]=uri,url');
+const drupalBaseUrl = import.meta.env.PUBLIC_DRUPAL_URL;
+const drupalArticles = await fetch(`${drupalBaseUrl}/blogs/node/article?sort=-created&page[limit]=3&filter[field_blog_category.id][value]=a4bd8146-d52f-471f-9c07-bff738f81a47&include=field_blog_listing_image.field_media_image&fields[file--file]=uri,url`);
 const articles = await drupalArticles.json();
 const posts: { title: string, path: string, created: string, image?: string}[] = [];
 

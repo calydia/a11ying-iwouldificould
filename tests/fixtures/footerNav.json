@@ -1,0 +1,11 @@
+{
+  "navigationLinks": [
+    {
+      "iconClass": "home",
+      "menuLink": {
+        "title": "Footer Link",
+        "pageUrl": "info"
+      }
+    }
+  ]
+}

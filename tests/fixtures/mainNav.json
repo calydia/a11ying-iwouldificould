@@ -1,0 +1,16 @@
+{
+  "firstLevel": [
+    {
+      "element": "link",
+      "button": "Fundamentals",
+      "mainPath": "/",
+      "menuLink": {
+        "relationTo": "pages",
+        "value": {
+          "title": "Fundamentals",
+          "pageUrl": "front"
+        }
+      }
+    }
+  ]
+}

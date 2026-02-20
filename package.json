@@ -6,7 +6,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:e2e": "E2E_USE_MOCKS=true playwright test",
+    "test:e2e:ui": "E2E_USE_MOCKS=true playwright test --ui",
+    "test:e2e:headed": "E2E_USE_MOCKS=true playwright test --headed",
+    "test:a11y": "E2E_USE_MOCKS=false npm run build && E2E_USE_MOCKS=false playwright test tests/axe-core.spec.ts"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
@@ -19,5 +23,10 @@
     "astro-icon": "^1.1.5",
     "dayjs": "^1.11.18",
     "qs-esm": "^7.0.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^20.17.17"
   }
 }

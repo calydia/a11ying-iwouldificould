@@ -1,0 +1,23 @@
+{
+  "id": 1,
+  "pageUrl": "front",
+  "title": "I would if I could!",
+  "metaDescription": "Mocked front page description.",
+  "content": {
+    "root": {
+      "children": [
+        {
+          "demoContent": false,
+          "type": "paragraph",
+          "children": [
+            {
+              "demoContent": false,
+              "type": "text",
+              "text": "Mocked introduction paragraph."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

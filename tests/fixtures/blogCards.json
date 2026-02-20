@@ -1,0 +1,20 @@
+{
+  "docs": [
+    {
+      "title": "Exove Post One",
+      "date": "2024-01-10T00:00:00.000Z",
+      "url": "https://exove.com/blog/exove-post-one",
+      "image": { "url": "/media/exove-post-one.jpg" }
+    },
+    {
+      "title": "Exove Post Two",
+      "date": "2024-01-11T00:00:00.000Z",
+      "url": "https://exove.com/blog/exove-post-two"
+    },
+    {
+      "title": "Exove Post Three",
+      "date": "2024-01-12T00:00:00.000Z",
+      "url": "https://exove.com/blog/exove-post-three"
+    }
+  ]
+}
