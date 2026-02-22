@@ -80,6 +80,8 @@ const renderers: Record<
     return <>{text}</>;
   },
 
+  linebreak: () => <br />,
+
   link: (node, children) => (
     <a
       href={node.fields?.url}
