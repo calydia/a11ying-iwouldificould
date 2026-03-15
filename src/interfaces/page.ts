@@ -1,4 +1,4 @@
-import type RichTextNode from './RichText';
+import type { RichTextNode } from 'a11ying-ui';
 
 
 export type LocalizedField = {
