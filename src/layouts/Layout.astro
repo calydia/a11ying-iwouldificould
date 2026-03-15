@@ -1,6 +1,6 @@
 ---
 import { ThemeToggle } from 'a11ying-ui';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import { LanguageSwitcher } from 'a11ying-ui';
 import { SkipLink } from 'a11ying-ui';
 import MainNavigation from '../components/MainNavigation.astro';
 import MainImage from '../components/MainImage.astro';
@@ -79,7 +79,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
       <SkipLink id="skip" href="#skip-target" label={t('skip-link-text')} />
       <div class="flex flex-wrap justify-end gap-1">
         <SearchBlock locale={locale} />
-        <LanguageSwitcher englishURL={ engUrl } finnishURL={ fiUrl } currentPage={ currentUrl } type={ type } />
+        <LanguageSwitcher englishURL={ engUrl } finnishURL={ fiUrl } currentPage={ currentUrl } currentLang={ locale } type={ type } ariaLabel={ t('language-switcher-aria') } languageLabel={ t('language-switcher-language') } client:load />
         <ThemeToggle darkLabel={t('theme-toggle-text-dark')} lightLabel={t('theme-toggle-text-light')} client:load />
       </div>
       <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-3 clear-both md:gap-8 lg:clear:none">
