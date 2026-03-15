@@ -19,6 +19,7 @@
     "@fontsource/atkinson-hyperlegible": "^5.2.6",
     "@fontsource/lato": "^5.2.6",
     "@fontsource/satisfy": "^5.2.6",
+    "a11ying-ui": "file:../a11ying-ui",
     "astro": "^5.13.3",
     "astro-icon": "^1.1.5",
     "dayjs": "^1.11.18",
