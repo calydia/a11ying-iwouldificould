@@ -1,25 +1,3 @@
-export interface FooterMenu {
-  navigationLinks: [
-    {
-      iconClass: string,
-      menuLink?: {
-        value: {
-          title: string,
-          pageUrl: string,
-        }
-      }
-    }
-  ]
-}
-
-export interface FooterMenuItem {
-  iconClass: string,
-  menuLink?: {
-    title: string,
-    pageUrl: string,
-  }
-}
-
 export interface MainMenu {
   firstLevel: [
     {
