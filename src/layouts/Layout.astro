@@ -1,7 +1,7 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.astro';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
-import SkipLink from '../components/SkipLink.astro';
+import { SkipLink } from 'a11ying-ui';
 import MainNavigation from '../components/MainNavigation.astro';
 import MainImage from '../components/MainImage.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
@@ -66,7 +66,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
 
     <header id="page-top" class="bg-gradient-to-r from-lt-perfume via-lt-blue-light to-lt-perfume
       dark:from-dk-purple-header dark:via-dk-blue-header dark:to-dk-purple-header">
-      <SkipLink skipId="skip" skipTarget="#skip-target" skipTextVariable="skip-link-text" />
+      <SkipLink id="skip" href="#skip-target" label={t('skip-link-text')} />
       <div class="flex flex-wrap justify-end gap-1">
         <SearchBlock locale={locale} />
         <LanguageSwitcher englishURL={ engUrl } finnishURL={ fiUrl } currentPage={ currentUrl } type={ type } />
