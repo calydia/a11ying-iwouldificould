@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SearchComponent from '../../components/SearchComponent';
+import { SearchComponent } from 'a11ying-ui';
+const wcagUrl = 'https://wcag.a11y.ing/';
 ---
 <Layout title="Sivustohaku" locale="fi" metaDescription="Käytä sivustohakua sisällön löytämiseen. Sivustohaku mahdollistaa hakemisen molemmilla kielillä."
   engUrl="search" fiUrl="haku" currentUrl="haku" currentSlug="haku" alternateFi="fi/haku" alternateEn="en/search" type="search"
@@ -14,6 +15,9 @@ import SearchComponent from '../../components/SearchComponent';
       searchResultLabel="tulosta" searchNoResults="Ei tuloksia."
       searchMainHeading="Hakutulokset haulle:" searchLocale="fi"
       searchSiteName="Sivusto: " searchContentType="Sisällön tyyppi: "
+      payloadUrl={import.meta.env.PUBLIC_PAYLOAD_URL}
+      defaultResultBaseUrl="/"
+      resultBaseUrls={{ reqpages: wcagUrl, criteria: wcagUrl, guidelines: wcagUrl, principles: wcagUrl }}
     />
   </div>
 </Layout>

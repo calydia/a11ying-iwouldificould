@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SearchComponent from '../../components/SearchComponent';
+import { SearchComponent } from 'a11ying-ui';
+const wcagUrl = 'https://wcag.a11y.ing/';
 ---
 <Layout title="Site search" locale="en" metaDescription="Use the search feature to search for the site content. The search provides results on both languages."
   engUrl="search" fiUrl="haku" currentUrl="search" currentSlug="search" alternateFi="fi/haku" alternateEn="en/search" type="search"
@@ -13,6 +14,9 @@ import SearchComponent from '../../components/SearchComponent';
     <SearchComponent client:load searchLabel="Search for content" searchButton="Search" searchResultLabel="results"
       searchNoResults="No results." searchMainHeading="Search results for:" searchLocale="en"
       searchSiteName="Site: " searchContentType="Content type: "
+      payloadUrl={import.meta.env.PUBLIC_PAYLOAD_URL}
+      defaultResultBaseUrl="/"
+      resultBaseUrls={{ reqpages: wcagUrl, criteria: wcagUrl, guidelines: wcagUrl, principles: wcagUrl }}
     />
   </div>
 </Layout>
