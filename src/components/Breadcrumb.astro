@@ -1,6 +1,9 @@
 ---
 import fetchApi from '../lib/payload';
 import type { MenuTitleInterface } from '../interfaces/menuTitleInterface';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { Breadcrumb } from 'a11ying-ui';
+import type { BreadcrumbItem } from 'a11ying-ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -8,67 +11,49 @@ const t = useTranslations(lang);
 const menuTitles = await fetchApi<MenuTitleInterface>({
   endpoint: 'menuTitles',
   global: true,
-  lang: lang
+  lang: lang,
 });
 
 const menuTitleList = menuTitles.list.menuItems;
-
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-
 const pathArray = (Astro.props.currentUrl !== '/') ? Astro.props.currentUrl.split('/') : null;
-
 const currentSlug = Astro.props.currentSlug;
 const currentTitle = Astro.props.currentTitle;
 const currentTitleCap = currentTitle.charAt(0).toUpperCase() + currentTitle.slice(1);
 const pageType = Astro.props.type;
-const demoTitle = lang == 'en' ? 'Demos' : 'Demot';
+const demoTitle = lang === 'en' ? 'Demos' : 'Demot';
 
+const items: BreadcrumbItem[] = [{ label: t('home-link'), href: `/${lang}/` }];
+
+if (pageType === 'demo') {
+  items.push({ label: demoTitle });
+}
+
+if (pathArray) {
+  for (const menuItem of pathArray) {
+    let found = false;
+    for (const i in menuTitleList) {
+      if (menuTitleList[i].menuPath === menuItem) {
+        items.push({ label: menuTitleList[i].menuTitle });
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      const label = (menuItem === currentSlug)
+        ? currentTitleCap
+        : (() => {
+            const name = menuItem.replaceAll('-', ' ');
+            return name.charAt(0).toUpperCase() + name.slice(1);
+          })();
+      items.push({ label });
+    }
+  }
+}
 ---
 
-<nav aria-label={ t('breadcrumb-aria') } class={`${Astro.props.gridClass} breadcrumb p-4-px md:px-8-px text-lt-gray dark:text-dk-gray`}>
-  <ul class="block list-none m-0 p-0">
-    <li class="inline">
-      <a href={`/${ lang }/`} class="underline underline-offset-2">
-        { t('home-link') }
-      </a>
-    </li>
-    {pageType == 'demo' ?
-      <li class="inline">
-        <span class="mx-2">/</span>
-        { demoTitle }
-      </li>
-      : null
-    }
-    {pathArray && pathArray.map((menuItem: string) => {
-      let menuTitle:string = '';
-
-      for (let i in menuTitleList) {
-        if (menuTitleList[i].menuPath == menuItem) {
-          menuTitle = menuTitleList[i].menuTitle;
-          return (
-            <li class="inline">
-              <span class="mx-2">/</span>
-              { menuTitle }
-            </li>
-          );
-        }
-      }
-
-      if (menuItem == currentSlug) {
-        menuTitle = currentTitleCap;
-
-        
-      } else {
-        const menuTitleName = menuItem.replaceAll('-', ' ');
-        menuTitle = menuTitleName.charAt(0).toUpperCase() + menuTitleName.slice(1);
-      }
-
-      return (
-        <li class="inline">
-          <span class="mx-2">/</span>
-          { menuTitle }
-        </li>
-      );
-    })}
-  </ul>
-</nav>
+<Breadcrumb
+  items={items}
+  ariaLabel={t('breadcrumb-aria')}
+  className={`${Astro.props.gridClass} breadcrumb p-4-px md:px-8-px text-lt-gray dark:text-dk-gray`}
+  client:load
+/>

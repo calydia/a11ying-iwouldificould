@@ -1,14 +1,10 @@
 ---
-import { ThemeToggle } from 'a11ying-ui';
-import { LanguageSwitcher } from 'a11ying-ui';
-import { SkipLink } from 'a11ying-ui';
+import { ThemeToggle, LanguageSwitcher, SkipLink, MainImage, SearchBlock } from 'a11ying-ui';
 import MainNavigation from '../components/MainNavigation.astro';
-import MainImage from '../components/MainImage.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import SideMenu from '../components/SideMenu.astro';
 import Footer from '../components/Footer.astro';
 import { Icon } from 'astro-icon/components';
-import SearchBlock from '../components/SearchBlock.astro';
 
 import { useTranslations } from '../i18n/utils';
 
@@ -78,7 +74,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
       dark:from-dk-purple-header dark:via-dk-blue-header dark:to-dk-purple-header">
       <SkipLink id="skip" href="#skip-target" label={t('skip-link-text')} />
       <div class="flex flex-wrap justify-end gap-1">
-        <SearchBlock locale={locale} />
+        <SearchBlock searchLabel={t('search-block-label')} searchUrl={locale === 'en' ? '/en/search/' : '/fi/haku/'} client:load />
         <LanguageSwitcher englishURL={ engUrl } finnishURL={ fiUrl } currentPage={ currentUrl } currentLang={ locale } type={ type } ariaLabel={ t('language-switcher-aria') } languageLabel={ t('language-switcher-language') } client:load />
         <ThemeToggle darkLabel={t('theme-toggle-text-dark')} lightLabel={t('theme-toggle-text-light')} client:load />
       </div>
@@ -97,7 +93,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
       </div>
       <MainNavigation currentUrl={ currentUrl } locale={ locale } />
     </header>
-    <MainImage />
+    <MainImage client:only="react" />
     { (currentType !== "front") ?
       <Breadcrumb currentTitle={ title } currentUrl={ currentUrl } currentSlug={ currentSlug } gridClass={crumbClass} type={ type } />
     : null }
