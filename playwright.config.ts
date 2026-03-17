@@ -22,7 +22,7 @@ export default defineConfig({
     ? [
         {
           command: 'node tests/mock-server.mjs',
-          url: 'http://127.0.0.1:4010',
+          url: 'http://127.0.0.1:4010/health',
           reuseExistingServer: !process.env.CI,
           timeout: 10_000,
         },

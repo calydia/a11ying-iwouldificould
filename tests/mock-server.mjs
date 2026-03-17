@@ -27,6 +27,12 @@ const server = createServer((req, res) => {
     return;
   }
 
+  if (req.url === '/health') {
+    res.writeHead(200, { 'content-type': 'text/plain' });
+    res.end('ok');
+    return;
+  }
+
   if (req.url.startsWith('/api/globals/frontPage')) {
     res.writeHead(200, { 'content-type': 'application/json' });
     res.end(JSON.stringify(fixtures.frontPage));

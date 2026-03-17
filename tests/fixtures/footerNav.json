@@ -1,7 +1,7 @@
 {
   "navigationLinks": [
     {
-      "iconClass": "home",
+      "iconClass": "arrow-up-circle-solid",
       "menuLink": {
         "title": "Footer Link",
         "pageUrl": "info"
