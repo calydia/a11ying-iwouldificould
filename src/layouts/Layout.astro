@@ -11,6 +11,7 @@ import { useTranslations } from '../i18n/utils';
 import '@fontsource/satisfy';
 import '@fontsource/atkinson-hyperlegible';
 import '@fontsource/lato';
+import 'a11ying-ui/styles';
 
 const { title, locale, metaDescription, engUrl, fiUrl, currentUrl, type, currentType, currentSlug } = Astro.props
 
@@ -113,9 +114,8 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
 </html>
 
 <style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+  @reference 'a11ying-ui/styles';
+  @source "../../node_modules/a11ying-ui/src";
 
   :root {
     --quote-icon: url('/icons/iconmonstr-quote-light.svg');
@@ -134,6 +134,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
     --menu-header-background: rgba(255,255,255,0.4);
   }
 
+  @layer base {
   .light .main-image--overlay {
     background-color: rgba(230, 200, 252, 0.2);
     background: linear-gradient(to right, rgba(187, 201, 247, 0.4) 0%, rgba(230,202, 252, 0.4) 50%, rgba(187, 201, 247, 0.4) 100%);
@@ -258,7 +259,14 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
   h4::before {
     content: '';
 
-    @apply bg-lt-perfume dark:bg-dk-purple-header absolute block z-[-1] bottom-0 w-10 h-2.5;
+    @apply bg-lt-perfume absolute block z-[-1] bottom-0 w-10 h-2.5;
+  }
+
+  .dark h1::before,
+  .dark h2::before,
+  .dark h3::before,
+  .dark h4::before {
+    background-color: var(--color-dk-purple-header);
   }
 
   .search-heading::before,
@@ -304,6 +312,27 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
 
   main {
     @apply text-lg lg:text-xl;
+  }
+
+  .breadcrumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .breadcrumb li {
+    display: inline;
+  }
+
+  .breadcrumb li span[aria-hidden] {
+    margin-inline: 0.5rem;
+  }
+
+  /* Icon container horizontal padding (px-3 from a11ying-ui components) */
+  #search-a,
+  #language-switcher,
+  #theme-toggle-button {
+    padding-inline: 0.75rem;
   }
 
   .breadcrumb a,
@@ -656,7 +685,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
   }
 
   .box-bordered {
-    @apply relative bodytext mt-12 p-8-px md:my-12 text-base border-solid border-4 bg-lt-code-bg border-lt-code-border dark:bg-dk-code-bg dark:border-dk-code-border shadow-xl
+    @apply relative mt-12 p-8-px md:my-12 text-base border-solid border-4 bg-lt-code-bg border-lt-code-border dark:bg-dk-code-bg dark:border-dk-code-border shadow-xl
   }
 
   .box-underlined h2 {
@@ -668,7 +697,7 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
   }
 
   .box-underlined .content-box--inner-wrapper {
-    @apply text-xl bodytext p-4-px lg:p-8-px border-t-4;
+    @apply text-xl p-4-px lg:p-8-px border-t-4;
 
     border-image: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
     border-image-slice: 1;
@@ -688,6 +717,20 @@ const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === 
 
   .details-content p:last-of-type {
     @apply mb-0;
+  }
+  } /* end @layer base */
+
+  /* Unlayered: overrides @layer utilities (flex-col) on desktop */
+  @media (min-width: 768px) {
+    #site-search {
+      flex-direction: row;
+      align-items: center;
+      row-gap: 0.5rem;
+      column-gap: 1.5rem;
+    }
+    #site-search input[type="text"] {
+      max-width: 24rem;
+    }
   }
 </style>
 
