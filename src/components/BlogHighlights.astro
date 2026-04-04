@@ -40,11 +40,22 @@ if (articles) {
       });
   });
 }
+
+const sectionTitle = lang === 'fi'
+  ? 'Uusimmat saavutettavuusartikkelini'
+  : 'Latest accessibility articles from my blog';
+const sectionIntro = lang === 'fi'
+  ? 'Nämä uusimmat kirjoitukset käsittelevät verkkosaavutettavuutta käytännön näkökulmasta. Ne täydentävät sivuston oppaita ajankohtaisilla esimerkeillä, havainnoilla ja neuvoilla.'
+  : 'These recent posts expand on the site guides with practical accessibility examples, current observations, and hands-on advice from my own blog.';
+const dateLabel = lang === 'fi' ? 'Julkaistu' : 'Published';
 ---
 <section aria-labelledby="a11y-blog-heading" class="w-full bg-slate-300 mt-12 pt-12 pb-12 px-4 dark:bg-slate-900">
   <h2 id="a11y-blog-heading" class="a11y-heading block max-w-xl mx-auto lg:max-w-4xl font-bold mb-8 mt-0 text-3xl md:text-4xl text-lt-gray dark:text-white
-  ">My newest blog posts on accessibility in my personal blog</h2>
+  ">{sectionTitle}</h2>
   <div class="max-w-7xl mx-auto">
+    <p class="text-xl bodytext max-w-xl mx-auto leading-relaxed lg:max-w-4xl text-lt-gray dark:text-dk-gray">
+      {sectionIntro}
+    </p>
     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
     <ul class="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-8" role="list">
 
@@ -69,7 +80,9 @@ if (articles) {
                 dark:after:bg-white">
                   {node.title}
                 </span>
-                <span class="sr-only">on</span>
+                <span class="block text-sm uppercase tracking-wide pb-2">
+                  {dateLabel}
+                </span>
                 <span class="block text-base md:text-xl pb-4">
                   {dayjs(node.created)
                     .format(`MMMM DD, YYYY`)}

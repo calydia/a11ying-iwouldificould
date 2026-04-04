@@ -31,13 +31,13 @@ const nodes = frontPage.content.root.children as RichTextNode[];
     <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
       <h1 id="skip-target">{ frontPage.title }</h1>
       <div class="text-xl bodytext">
-        <RichText client:load nodes={nodes} lang="en" />
+        <RichText client:load nodes={nodes} lang="fi" />
       </div>
     </div>
   </div>
   <ExoveBlogHighlights slot="blogs"
-    title="Uusimmat kirjoitukseni Exoven blogissa"
-    intro="Yritän tehdä osuuteni Exoven tavoitteessa poistaa digiturhautumista kirjoittamalla saavutettavuudesta Exoven blogissa."
+    title="Uusimmat saavutettavuusartikkelini Exoven blogissa"
+    intro="Nämä kirjoitukset käsittelevät saavutettavuustyötä asiakas- ja yritysympäristöissä, kuten saavutettavuuspolitiikkaa, seurantaa ja käytännön parannuksia digipalveluihin."
     posts={posts}
     bgClass="bg-gray"
   />
