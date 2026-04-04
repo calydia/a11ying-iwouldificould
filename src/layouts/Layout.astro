@@ -79,14 +79,15 @@ function buildTitle(pageType: string, pageTitle: string) {
   return `${pageTitle} | ${brandName}`;
 }
 
-const pageTitle = buildTitle(type, title);
+const frontTitle = title === localizedSiteName ? `${localizedSiteName} | ${t('site-slogan')}` : `${localizedSiteName} | ${title}`;
+const pageTitle = type === 'front' ? frontTitle : buildTitle(type, title).replace(brandName, localizedSiteName);
 const schemaGraph = [
   {
     '@type': 'WebSite',
     '@id': `${siteUrl}/#website`,
     url: siteUrl,
-    name: brandName,
-    alternateName: localizedSiteName,
+    name: localizedSiteName,
+    alternateName: brandName,
     inLanguage: ['en', 'fi'],
   },
   {
