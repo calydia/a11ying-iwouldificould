@@ -1,16 +1,38 @@
 {
   "firstLevel": [
     {
-      "element": "link",
+      "element": "button",
       "button": "Fundamentals",
-      "mainPath": "/",
-      "menuLink": {
-        "relationTo": "pages",
-        "value": {
-          "title": "Fundamentals",
-          "pageUrl": "front"
+      "mainPath": "/front",
+      "secondLevel": [
+        {
+          "element": "link",
+          "menuLink": {
+            "relationTo": "pages",
+            "value": {
+              "title": "Overview",
+              "pageUrl": "front"
+            }
+          }
+        },
+        {
+          "element": "button",
+          "button": "Types of disabilities",
+          "iconClass": "icon--glasses",
+          "thirdLevel": [
+            {
+              "element": "link",
+              "menuLink": {
+                "relationTo": "pages",
+                "value": {
+                  "title": "Visual disabilities",
+                  "pageUrl": "fundamentals/types-of-disabilities/visual-disabilities"
+                }
+              }
+            }
+          ]
         }
-      }
+      ]
     }
   ]
 }

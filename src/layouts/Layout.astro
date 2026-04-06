@@ -830,60 +830,105 @@ const jsonLd = {
 
 <script>
   document.addEventListener('keyup', (event) => {
-
     if (event.code == "Escape") {
-      const targetClass = (event.target as HTMLButtonElement).classList;
-      const currentExpanded = (event.target as HTMLButtonElement).getAttribute('aria-expanded');
+      const target = document.activeElement;
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      const targetClass = target.classList;
+      const currentExpanded = target.getAttribute('aria-expanded');
+
+      const closeMainMenuAndFocusToggle = () => {
+        const menuToggle = document.getElementById('main-menu-toggle');
+        if (menuToggle instanceof HTMLButtonElement) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          window.requestAnimationFrame(() => menuToggle.focus());
+        }
+      };
+
+      const getPreviousButton = (element: Element | null) => {
+        const previousElement = element?.previousElementSibling;
+        return previousElement instanceof HTMLButtonElement ? previousElement : null;
+      };
+
+      const focusButton = (button: HTMLButtonElement) => {
+        window.requestAnimationFrame(() => button.focus());
+      };
+
+      const handleMainNavigationEscape = () => {
+        if (!target.closest('#main-menu-nav')) {
+          return false;
+        }
+
+        if (targetClass.contains('mobile-menu-toggle')) {
+          if (currentExpanded === 'true') {
+            target.setAttribute('aria-expanded', 'false');
+            focusButton(target as HTMLButtonElement);
+            return true;
+          }
+
+          const parentMenuButton = getPreviousButton(target.closest('.menu-button-ul'));
+          if (parentMenuButton) {
+            parentMenuButton.setAttribute('aria-expanded', 'false');
+            focusButton(parentMenuButton);
+            return true;
+          }
+        }
+
+        if (targetClass.contains('menu-button')) {
+          if (currentExpanded === 'true') {
+            target.setAttribute('aria-expanded', 'false');
+            focusButton(target as HTMLButtonElement);
+            return true;
+          }
+
+          closeMainMenuAndFocusToggle();
+          return true;
+        }
+
+        if (targetClass.contains('menu-toggle')) {
+          target.setAttribute('aria-expanded', 'false');
+          focusButton(target as HTMLButtonElement);
+          return true;
+        }
+
+        if (target.tagName === 'A') {
+          const parentLevelToggle = getPreviousButton(target.closest('.menu-lower-level'));
+          if (parentLevelToggle) {
+            parentLevelToggle.setAttribute('aria-expanded', 'false');
+            focusButton(parentLevelToggle);
+            return true;
+          }
+
+          const parentMenuButton = getPreviousButton(target.closest('.menu-button-ul'));
+          if (parentMenuButton) {
+            parentMenuButton.setAttribute('aria-expanded', 'false');
+            focusButton(parentMenuButton);
+            return true;
+          }
+
+          if (target.closest('#main-menu')) {
+            closeMainMenuAndFocusToggle();
+            return true;
+          }
+        }
+
+        return false;
+      };
+
+      if (handleMainNavigationEscape()) {
+        return;
+      }
 
       /**
        * Main menu
        */
 
-      // If we press esc when focused on a menu button or the toggle.
-      if (targetClass.contains('menu-button') || targetClass.contains('menu-toggle') || targetClass.contains('mobile-menu-toggle')) {
-        (event.target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-        (event.target as HTMLButtonElement).focus();
-      }
-
-      // If we press esc when focused on a menu button or the toggle.
+      // If we press esc when focused on a side menu button or the toggle.
       if (targetClass.contains('side-menu-button') || targetClass.contains('menu-toggle') || targetClass.contains('mobile-menu-toggle')) {
-        (event.target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-        (event.target as HTMLButtonElement).focus();
-      }
-
-      // If esc is pressed on a menu button with aria-expanded as false, close the menu and focus the toggle.
-      if (targetClass.contains('menu-button') && currentExpanded == 'false') {
-        const menuToggle = document.getElementById('main-menu-toggle');
-        (menuToggle as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-        (menuToggle as HTMLButtonElement).focus();
-      }
-
-      // If esc is pressed on a menu plus/minus button with aria-expanded as false, close the menu and focus the previous button.
-      if (targetClass.contains('mobile-menu-toggle') && currentExpanded == 'false') {
-        const closestMenuButton = (event.target as HTMLAnchorElement).closest('.menu-button-ul');
-        if (closestMenuButton) {
-          (closestMenuButton.previousSibling as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-          (closestMenuButton.previousSibling as HTMLButtonElement).focus();
-        }
-      }
-
-      // Find closest menu button or menu toggle, close menu elements accordingly.
-      if ((event.target as HTMLElement).tagName == 'A') {
-        const closestMenuLevelToggle = (event.target as HTMLAnchorElement).closest('.menu-lower-level');
-        const closestMenuButton = (event.target as HTMLAnchorElement).closest('.menu-button-ul');
-        const closestMenuToggle = (event.target as HTMLAnchorElement).closest('#main-menu');
-
-        if (closestMenuLevelToggle) {
-          (closestMenuLevelToggle.previousSibling as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-          (closestMenuLevelToggle.previousSibling as HTMLButtonElement).focus();
-        } else if (closestMenuButton) {
-          (closestMenuButton.previousSibling as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-          (closestMenuButton.previousSibling as HTMLButtonElement).focus();
-        } else if (closestMenuToggle) {
-          const menuToggle = document.getElementById('main-menu-toggle');
-          (menuToggle as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-          (menuToggle as HTMLButtonElement).focus();
-        }
+        (target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+        (target as HTMLButtonElement).focus();
       }
 
       /**
@@ -892,13 +937,13 @@ const jsonLd = {
 
       // If we press esc when focused on language switcher toggle.
       if (targetClass.contains('lang-switcher')) {
-        (event.target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
-        (event.target as HTMLButtonElement).focus();
+        (target as HTMLButtonElement).setAttribute('aria-expanded', 'false');
+        (target as HTMLButtonElement).focus();
       }
 
       // Close the language swicher if we press esc in a language switcher link
-      if ((event.target as HTMLElement).tagName == 'A') {
-        const closestMenuToggle = (event.target as HTMLAnchorElement).closest('#lang-switcher');
+      if (target.tagName == 'A') {
+        const closestMenuToggle = (target as HTMLAnchorElement).closest('#lang-switcher');
 
         if (closestMenuToggle) {
           const menuToggle = document.getElementById('language-menu-button');
