@@ -37,6 +37,7 @@ const localeMap = {
   en: 'en_US',
   fi: 'fi_FI',
 } as const;
+const localeKey = locale as keyof typeof localeMap;
 
 function buildPagePath(targetLocale: 'en' | 'fi', pageType: string, pageUrl: string) {
   if (pageType === 'front') {
@@ -54,7 +55,7 @@ function toAbsoluteUrl(path: string) {
   return new URL(path, siteUrl).toString();
 }
 
-const canonicalPath = buildPagePath(locale, type, currentUrl);
+const canonicalPath = buildPagePath(localeKey, type, currentUrl);
 const canonicalUrl = toAbsoluteUrl(canonicalPath);
 const englishUrl = engUrl ? toAbsoluteUrl(buildPagePath('en', type, engUrl)) : null;
 const finnishUrl = fiUrl ? toAbsoluteUrl(buildPagePath('fi', type, fiUrl)) : null;
@@ -131,7 +132,7 @@ const jsonLd = {
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:locale" content={localeMap[locale]} />
+    <meta property="og:locale" content={localeMap[localeKey]} />
     <meta property="og:site_name" content={ t('site-name') } />
     { englishUrl && englishUrl !== canonicalUrl ?
       <meta property="og:locale:alternate" content={localeMap.en} />

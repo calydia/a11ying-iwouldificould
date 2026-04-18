@@ -2,7 +2,7 @@
 import fetchApi from '../lib/payload';
 import type { MenuTitleInterface } from '../interfaces/menuTitleInterface';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { Breadcrumb } from 'a11ying-ui';
+import { Breadcrumb as UiBreadcrumb } from 'a11ying-ui';
 import type { BreadcrumbItem } from 'a11ying-ui';
 
 const lang = getLangFromUrl(Astro.url);
@@ -51,7 +51,7 @@ if (pathArray) {
 }
 ---
 
-<Breadcrumb
+<UiBreadcrumb
   items={items}
   ariaLabel={t('breadcrumb-aria')}
   className={`${Astro.props.gridClass} breadcrumb p-4-px md:px-8-px text-lt-gray dark:text-dk-gray`}

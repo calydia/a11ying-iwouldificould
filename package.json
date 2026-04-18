@@ -7,6 +7,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
+    "quality": "npm run check && npm run test:e2e && npm run test:a11y && npm run test:visual",
+    "test": "npm run test:e2e",
     "test:e2e": "E2E_USE_MOCKS=true playwright test",
     "test:e2e:ui": "E2E_USE_MOCKS=true playwright test --ui",
     "test:e2e:headed": "E2E_USE_MOCKS=true playwright test --headed",
@@ -29,8 +32,10 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.8",
     "@axe-core/playwright": "^4.11.1",
     "@playwright/test": "^1.59.1",
-    "@types/node": "^25.6.0"
+    "@types/node": "^25.6.0",
+    "typescript": "^5.9.3"
   }
 }
