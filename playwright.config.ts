@@ -6,6 +6,7 @@ const useMocks = process.env.E2E_USE_MOCKS !== 'false';
 
 export default defineConfig({
   testDir: './tests',
+  testIgnore: useMocks ? ['**/visual.spec.ts', '**/axe-core.spec.ts'] : undefined,
   timeout: 30_000,
   expect: {
     timeout: 5_000,

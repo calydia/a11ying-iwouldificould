@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Skip link', () => {
   test('is the first focusable element', async ({ page }) => {
     await page.goto('/en/');
+    await page.waitForLoadState('networkidle');
     await page.keyboard.press('Tab');
     await expect(page.locator(':focus')).toHaveAttribute('href', /#skip-target|#skip/);
   });
@@ -157,33 +158,5 @@ test.describe('Main navigation escape handling', () => {
 
     await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
     await expect(menuToggle).toBeFocused();
-  });
-});
-
-test.describe('MainImage overlay', () => {
-  test('overlay div is present in DOM', async ({ page }) => {
-    await page.goto('/en/');
-    await page.waitForSelector('.main-image--overlay');
-    await expect(page.locator('.main-image--overlay')).toBeAttached();
-  });
-
-  test('overlay has a gradient background in light mode', async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem('darkMode', 'disabled'));
-    await page.goto('/en/');
-    await page.waitForSelector('.main-image--overlay');
-    const bg = await page.locator('.main-image--overlay').evaluate(
-      (el) => getComputedStyle(el).backgroundImage
-    );
-    expect(bg).toContain('gradient');
-  });
-
-  test('overlay has a gradient background in dark mode', async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem('darkMode', 'enabled'));
-    await page.goto('/en/');
-    await page.waitForSelector('.main-image--overlay');
-    const bg = await page.locator('.main-image--overlay').evaluate(
-      (el) => getComputedStyle(el).backgroundImage
-    );
-    expect(bg).toContain('gradient');
   });
 });

@@ -58,6 +58,11 @@ export default async function fetchApi<T>({
   }
 
   const res = await fetch(url.toString());
+
+  if (!res.ok) {
+    throw new Error(`Payload request failed for ${endpoint}: ${res.status} ${res.statusText} (${url.toString()})`);
+  }
+
   let data = await res.json();
 
   if (wrappedByKey) {

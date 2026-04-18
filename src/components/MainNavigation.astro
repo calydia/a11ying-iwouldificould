@@ -160,7 +160,6 @@ const menuItems = await fetchApi<MainMenu>({
       if (allLowerButtons instanceof HTMLCollection) {
         Array.from(allLowerButtons).forEach((element: Element) => {
           element.setAttribute('aria-expanded', 'false');
-          console.log('hep')
         });
       }
     });

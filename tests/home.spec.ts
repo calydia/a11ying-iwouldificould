@@ -4,9 +4,9 @@ test('home page renders payload and blog content', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByRole('heading', { level: 1 }).first()).toHaveText('I would if I could!');
-  await expect(page.getByText('Mocked introduction paragraph.')).toBeVisible();
+  await expect(page.locator('p').filter({ hasText: 'Mocked introduction paragraph.' })).toBeVisible();
 
-  await expect(page.getByRole('heading', { name: 'My newest blog posts on accessibility in my personal blog' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Latest accessibility articles from my blog' })).toBeVisible();
   await expect(page.getByText('Personal Blog Post One')).toBeVisible();
 
   await expect(page.getByRole('heading', { name: "My newest blog posts on accessibility in Exove's blog" })).toBeVisible();

@@ -1,0 +1,119 @@
+{
+  "docs": [
+    {
+      "id": 1,
+      "slug": {
+        "en": "what-is-accessibility",
+        "fi": "mita-saavutettavuus-on"
+      },
+      "pageUrl": {
+        "en": "fundamentals/the-basics/what-is-accessibility",
+        "fi": "perusteet/perusjutut/mita-saavutettavuus-on"
+      },
+      "title": {
+        "en": "What is accessibility?",
+        "fi": "Mita saavutettavuus on?"
+      },
+      "metaDescription": {
+        "en": "Mocked accessibility basics page.",
+        "fi": "Mockattu saavutettavuuden perusteiden sivu."
+      },
+      "lead": {
+        "en": {
+          "root": {
+            "children": [
+              {
+                "demoContent": false,
+                "type": "paragraph",
+                "children": [
+                  {
+                    "demoContent": false,
+                    "type": "text",
+                    "text": "Mocked lead paragraph."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "fi": {
+          "root": {
+            "children": [
+              {
+                "demoContent": false,
+                "type": "paragraph",
+                "children": [
+                  {
+                    "demoContent": false,
+                    "type": "text",
+                    "text": "Mockattu johdantokappale."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "content": {
+        "en": {
+          "root": {
+            "children": [
+              {
+                "demoContent": false,
+                "type": "heading",
+                "tag": "h2",
+                "children": [
+                  {
+                    "demoContent": false,
+                    "type": "text",
+                    "text": "Mocked content heading"
+                  }
+                ]
+              },
+              {
+                "demoContent": false,
+                "type": "paragraph",
+                "children": [
+                  {
+                    "demoContent": false,
+                    "type": "text",
+                    "text": "Mocked content paragraph."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "fi": {
+          "root": {
+            "children": [
+              {
+                "demoContent": false,
+                "type": "heading",
+                "tag": "h2",
+                "children": [
+                  {
+                    "demoContent": false,
+                    "type": "text",
+                    "text": "Mockattu sisalto-otsikko"
+                  }
+                ]
+              },
+              {
+                "demoContent": false,
+                "type": "paragraph",
+                "children": [
+                  {
+                    "demoContent": false,
+                    "type": "text",
+                    "text": "Mockattu sisaltokappale."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

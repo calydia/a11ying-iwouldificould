@@ -1,0 +1,30 @@
+{
+  "list": {
+    "menuItems": [
+      {
+        "menuPath": "fundamentals",
+        "menuTitle": "Fundamentals"
+      },
+      {
+        "menuPath": "the-basics",
+        "menuTitle": "The basics"
+      },
+      {
+        "menuPath": "types-of-disabilities",
+        "menuTitle": "Types of disabilities"
+      },
+      {
+        "menuPath": "perusteet",
+        "menuTitle": "Perusteet"
+      },
+      {
+        "menuPath": "perusjutut",
+        "menuTitle": "Perusjutut"
+      },
+      {
+        "menuPath": "vammaisuuden-tyypit",
+        "menuTitle": "Vammaisuuden tyypit"
+      }
+    ]
+  }
+}

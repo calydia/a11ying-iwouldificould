@@ -17,6 +17,8 @@ const fixtures = {
   blogCards: loadFixture('blogCards.json'),
   mainNav: loadFixture('mainNav.json'),
   footerNav: loadFixture('footerNav.json'),
+  menuTitles: loadFixture('menuTitles.json'),
+  pages: loadFixture('pages.json'),
   drupalBlog: loadFixture('drupalBlog.json'),
 };
 
@@ -51,6 +53,18 @@ const server = createServer((req, res) => {
     return;
   }
 
+  if (req.url.startsWith('/api/globals/menuTitles')) {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify(fixtures.menuTitles));
+    return;
+  }
+
+  if (req.url.startsWith('/api/pages')) {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify(fixtures.pages));
+    return;
+  }
+
   if (req.url.startsWith('/api/blogCards')) {
     res.writeHead(200, { 'content-type': 'application/json' });
     res.end(JSON.stringify(fixtures.blogCards));
@@ -64,7 +78,7 @@ const server = createServer((req, res) => {
   }
 
   res.writeHead(404, { 'content-type': 'application/json' });
-  res.end(JSON.stringify({ error: 'Not found' }));
+  res.end(JSON.stringify({ error: 'Mock endpoint not found', url: req.url }));
 });
 
 const port = Number(process.env.MOCK_SERVER_PORT || 4010);
