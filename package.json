@@ -18,24 +18,24 @@
     "test:visual:update": "playwright test --config playwright.visual.config.ts --update-snapshots"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.3",
+    "@astrojs/react": "^5.0.4",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/atkinson-hyperlegible": "^5.2.6",
     "@fontsource/lato": "^5.2.6",
     "@fontsource/satisfy": "^5.2.6",
-    "@tailwindcss/vite": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.4",
     "a11ying-ui": "github:calydia/a11ying-ui#v2.0.3",
-    "astro": "^6.1.5",
+    "astro": "^6.2.0",
     "astro-icon": "^1.1.5",
     "dayjs": "^1.11.20",
     "qs-esm": "^8.0.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@axe-core/playwright": "^4.11.1",
+    "@astrojs/check": "^0.9.9",
+    "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }

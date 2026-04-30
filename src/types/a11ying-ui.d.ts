@@ -117,3 +117,6 @@ declare module 'a11ying-ui' {
   export const SkipLink: any;
   export const ThemeToggle: any;
 }
+
+declare module 'a11ying-ui/styles';
+declare module '@fontsource/*';
