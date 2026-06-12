@@ -40,4 +40,5 @@ Before making UI, token, spacing, typography, color, navigation, or interaction 
 - Site-specific content, routing, data loading, and page composition should stay in this repo.
 - If a local workaround is needed first, record a follow-up to move the durable fix into `a11ying-ui`.
 
-Current follow-up: `a11ying-ui` should publish TypeScript declaration files. This repo has a local `src/types/a11ying-ui.d.ts` shim so `astro check` can run until the design-system package ships declarations.
+`a11ying-ui` publishes TypeScript declarations. Keep the package dependency up
+to date and use its exported component and data-contract types directly.

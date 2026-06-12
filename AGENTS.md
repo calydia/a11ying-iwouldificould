@@ -53,7 +53,6 @@ Use these ownership boundaries:
 - `src/lib/payload.ts`: Payload CMS request construction and error handling.
 - `src/i18n/`: English/Finnish UI strings and translation helpers.
 - `src/interfaces/`: CMS and page data contracts.
-- `src/types/a11ying-ui.d.ts`: temporary local declarations for the package.
 - `tests/`: Playwright functional, accessibility, and visual tests plus mock
   fixtures/server.
 - `docs/testing.md`: detailed test policy and shared-design-system guidance.
@@ -113,7 +112,6 @@ For a change originating in `a11ying-ui`:
 4. Update `a11ying-ui` in this repository and `wcag-front`.
 5. Run focused consumer tests, then each affected site's quality gate.
 
-The two site repositories currently carry a local `a11ying-ui` declaration
-shim. Keep it aligned with imported package APIs until the package build
-reliably publishes TypeScript declarations; remove it only as a coordinated
-consumer change.
+Use the TypeScript declarations published by `a11ying-ui`. Do not recreate a
+local ambient module shim; fix missing or incorrect public types in the design
+system package and update both consumers together.
