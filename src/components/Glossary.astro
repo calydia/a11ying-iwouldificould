@@ -1,6 +1,7 @@
 ---
 import fetchApi from '../lib/payload';
 import type glossaryItem from '../interfaces/glossaryInterface';
+import { sanitizeCmsHtml } from 'a11ying-ui';
 
 const glossaryTerms = await fetchApi<glossaryItem[]>({
   endpoint: 'glossaryItems',
@@ -16,7 +17,7 @@ const glossaryTerms = await fetchApi<glossaryItem[]>({
 
     return (
       <dt class="text-blue-tory dark:text-lt-perfume col-span-1">{ glossaryTerm.term }</dt>
-      <dd class="ml-8 glossary-term col-span-4"><Fragment set:html={ glossaryTerm.termDescription } /></dd>
+      <dd class="ml-8 glossary-term col-span-4"><Fragment set:html={sanitizeCmsHtml(glossaryTerm.termDescription)} /></dd>
     );
   })}
 </dl>

@@ -31,7 +31,7 @@ const nodes = frontPage.content.root.children as RichTextNode[];
     <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
       <h1 id="skip-target">{ frontPage.title }</h1>
       <div class="text-xl bodytext">
-        <RichText client:load nodes={nodes} lang="fi" />
+        <RichText nodes={nodes} lang="fi" />
       </div>
     </div>
   </div>

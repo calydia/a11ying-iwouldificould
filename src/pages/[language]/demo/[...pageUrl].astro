@@ -49,7 +49,7 @@ const nodes = (page.content[lang]) ? page.content[lang].root.children as RichTex
     <div class="text-lt-gray dark:text-dk-gray py-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
       <h1 id="skip-target">{ page.title[lang] }</h1>
       {nodes &&        
-        <div class="text-xl bodytext"><RichText client:load nodes={nodes} lang={lang} /></div>
+        <div class="text-xl bodytext"><RichText nodes={nodes} lang={lang} /></div>
       }
     </div>
   </div>

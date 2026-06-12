@@ -38,7 +38,7 @@ const nodes = (notFound.content) ? notFound.content.root.children as RichTextNod
       <h1 id="skip-target">{ notFound.title }</h1>
       <div class="text-xl bodytext">
         { nodes &&
-          <RichText client:load nodes={nodes} lang={lang} />
+          <RichText nodes={nodes} lang={lang} />
         }
       </div>
     </div>
