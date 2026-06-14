@@ -13,6 +13,7 @@ const wcagUrl = 'https://wcag.a11y.ing/';
     </div>
     <SearchComponent client:load searchLabel="Search for content" searchButton="Search" searchResultLabel="results"
       searchNoResults="No results." searchMainHeading="Search results for:" searchLocale="en"
+      searchLoading="Searching…" searchError="Search failed. Please try again."
       searchSiteName="Site: " searchContentType="Content type: "
       payloadUrl={import.meta.env.PUBLIC_PAYLOAD_URL}
       defaultResultBaseUrl="/"
