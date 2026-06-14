@@ -75,7 +75,7 @@ describe('createPayloadClient', () => {
 
     const url = new URL((fetchMock.mock.calls as unknown[][])[0][0] as string);
     expect(url.searchParams.get('where[title][like]')).toBe('contrast');
-    expect(url.searchParams.get('locale')).toBe('fi');
+    expect(url.searchParams.get('locale')).toBe('en');
     expect(url.searchParams.get('pagination')).toBe('false');
   });
 

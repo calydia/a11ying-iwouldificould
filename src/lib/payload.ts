@@ -80,6 +80,7 @@ export function createPayloadClient(
 
     if (normalizedEndpoint === 'search') {
       mergeSearchParams(url.searchParams, searchString);
+      url.searchParams.set('locale', localeFor(lang));
       url.searchParams.set('pagination', 'false');
     }
 
