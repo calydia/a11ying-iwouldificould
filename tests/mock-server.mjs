@@ -59,9 +59,21 @@ const server = createServer((req, res) => {
     return;
   }
 
+  if (req.url.startsWith('/api/globals/notFound')) {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify({ title: 'Page not found', content: null }));
+    return;
+  }
+
   if (req.url.startsWith('/api/pages')) {
     res.writeHead(200, { 'content-type': 'application/json' });
     res.end(JSON.stringify(fixtures.pages));
+    return;
+  }
+
+  if (req.url.startsWith('/api/demopages')) {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify({ docs: [] }));
     return;
   }
 

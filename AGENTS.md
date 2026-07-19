@@ -16,6 +16,8 @@ The site:
 
 The main runtime inputs are `PUBLIC_PAYLOAD_URL` and `PUBLIC_DRUPAL_URL`.
 Playwright tests provide local mock services for deterministic test runs.
+Astro 7 requires Node.js 22.12 or newer; use a compatible Node 22 release for
+local development, CI, and production builds.
 
 ## Related Repositories
 
@@ -94,6 +96,16 @@ npm run quality
 Use the smallest relevant test while iterating. Run `npm run quality` for
 changes to the layout, shared site shell, navigation, styling foundations,
 shared-component integration, or other broad behavior.
+
+Playwright builds the static site and runs browser tests against `astro
+preview`; it does not use the Astro development server. Functional and visual
+tests build against the local Payload/Drupal mock server. The axe suite builds
+against the configured live services. A build or mock health-check failure
+must fail the suite rather than fall back to another data source.
+
+Run this repository's and `wcag-front`'s browser quality gates sequentially:
+both use ports 4010 and 4321. Do not leave a separate dev or preview server on
+those ports while running the tests.
 
 For intentional visual changes:
 

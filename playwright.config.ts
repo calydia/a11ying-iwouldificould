@@ -24,13 +24,13 @@ export default defineConfig({
         {
           command: 'node tests/mock-server.mjs',
           url: 'http://127.0.0.1:4010/health',
-          reuseExistingServer: !process.env.CI,
+          reuseExistingServer: false,
           timeout: 10_000,
         },
         {
-          command: `npm run dev -- --host 127.0.0.1 --port ${port}`,
+          command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${port}`,
           url: baseURL,
-          reuseExistingServer: !process.env.CI,
+          reuseExistingServer: false,
           timeout: 120_000,
           env: {
             PUBLIC_PAYLOAD_URL: 'http://127.0.0.1:4010',
@@ -41,7 +41,7 @@ export default defineConfig({
     : {
         command: `npm run preview -- --host 127.0.0.1 --port ${port}`,
         url: baseURL,
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: false,
         timeout: 120_000,
       },
   projects: [
