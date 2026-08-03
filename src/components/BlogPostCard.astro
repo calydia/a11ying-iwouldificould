@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  url: string;
+  date: string;
+  formattedDate: string;
+  imageSrc?: string;
+  description?: string;
+}
+
+const { title, url, date, formattedDate, imageSrc, description } = Astro.props;
+---
+
+<li class="card-cover group relative grid content-start items-stretch p-2 border-solid border-4 gradient-border-light bg-lt-blue-light text-lt-gray transition-shadow hover:shadow-lg focus-within:shadow-lg focus-within:outline focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-black dark:gradient-border-dark dark:bg-dk-purple dark:text-white dark:focus-within:outline-white">
+  {imageSrc && (
+    <Image
+      src={imageSrc}
+      alt=""
+      densities={[1.5, 2]}
+      width={690}
+      height={404}
+      class="block self-start w-full aspect-[690/404] object-cover"
+    />
+  )}
+  <div class="self-start text-center font-light">
+    <h3 class="m-0 text-lg leading-7 font-semibold md:text-2xl md:leading-8 py-4 px-2 text-balance hyphens-manual text-lt-gray dark:text-white after:bg-black after:h-0.5 after:block after:w-10 after:mt-4 after:mb-0 after:mx-auto after:content-[''] dark:after:bg-white">
+      <a href={url} class="post-link no-underline focus:outline-none">
+        <span class="post-title">{title}</span>
+      </a>
+    </h3>
+    <time datetime={date} class="block my-0 text-sm md:text-base leading-5 md:leading-6 pb-3 text-lt-gray-box dark:text-dk-gray">
+      {formattedDate}
+    </time>
+    {description && (
+      <p class="my-0 text-sm lg:text-[0.95rem] leading-relaxed px-4 pb-4">
+        {description}
+      </p>
+    )}
+  </div>
+</li>

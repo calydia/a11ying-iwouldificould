@@ -11,6 +11,7 @@ export interface NodeArticle {
     langcode: string,
     status: boolean,
     title: string,
+    field_meta_description?: string,
     created: string,
     path: {
       alias: string,

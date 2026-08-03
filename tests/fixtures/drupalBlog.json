@@ -5,6 +5,7 @@
       "id": "article-1",
       "attributes": {
         "title": "Personal Blog Post One",
+        "field_meta_description": "Description for personal blog post one.",
         "path": { "alias": "/post-one" },
         "created": "2024-01-01T00:00:00.000Z"
       },
@@ -19,6 +20,7 @@
       "id": "article-2",
       "attributes": {
         "title": "Personal Blog Post Two",
+        "field_meta_description": "Description for personal blog post two.",
         "path": { "alias": "/post-two" },
         "created": "2024-01-02T00:00:00.000Z"
       },
@@ -33,6 +35,7 @@
       "id": "article-3",
       "attributes": {
         "title": "Personal Blog Post Three",
+        "field_meta_description": "Description for personal blog post three.",
         "path": { "alias": "/post-three" },
         "created": "2024-01-03T00:00:00.000Z"
       },
