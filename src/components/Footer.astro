@@ -65,12 +65,23 @@ const currentPath = '/' + Astro.props.currentPage;
             </li>
             <li>
               <a
-                href="https://blog.sanna.ninja/accessibility"
+                href="https://sanna.a11y.ing/blog/accessibility/"
                 rel="noopener noreferrer"
                 class="font-light block py-2"
               >
                 { t('ext-blog') }
               </a>
+            </li>
+            <li>
+              <a
+                href="https://testing.a11y.ing/"
+                hreflang={lang === 'fi' ? 'en' : undefined}
+                rel="noopener noreferrer"
+                class="font-light inline-block py-2"
+              >
+                <span lang={lang === 'fi' ? 'en' : undefined}>{ t('ext-testing-lab') }</span>
+              </a>
+              {lang === 'fi' && <span> { t('testing-lab-language-note') }</span>}
             </li>
           </ul>
         </nav>

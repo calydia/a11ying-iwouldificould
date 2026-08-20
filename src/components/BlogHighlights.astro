@@ -6,6 +6,12 @@ import BlogPostCard from './BlogPostCard.astro';
 import { getLangFromUrl } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 
+const accessibilityBlogBaseUrl = 'https://sanna.a11y.ing/blog/accessibility/';
+const getAccessibilityBlogArticleUrl = (path: string) => {
+  const articleSlug = path.replace(/^\/+|\/+$/g, '');
+  return `${accessibilityBlogBaseUrl}${articleSlug}/`;
+};
+
 const drupalBaseUrl = import.meta.env.PUBLIC_DRUPAL_URL;
 const drupalArticles = await fetch(`${drupalBaseUrl}/blogs/node/article?sort=-created&page[limit]=3&filter[field_blog_category.id][value]=a4bd8146-d52f-471f-9c07-bff738f81a47&include=field_blog_listing_image.field_media_image&fields[file--file]=uri,url`);
 const articles = await drupalArticles.json();
@@ -59,7 +65,7 @@ const sectionIntro = lang === 'fi'
       {posts.map((node) => (
         <BlogPostCard
           title={node.title}
-          url={`https://blog.sanna.ninja/accessibility${node.path}`}
+          url={getAccessibilityBlogArticleUrl(node.path)}
           date={node.created}
           formattedDate={dayjs(node.created).format('MMMM DD, YYYY')}
           imageSrc={node.image ? `https://drupal.ampere.corrupted.pw/${node.image}` : undefined}

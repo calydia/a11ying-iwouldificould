@@ -35,6 +35,7 @@ test('blog cards use a title-only link and source-appropriate content', async ({
 
   await expect(personalLink).toHaveCount(1);
   await expect(personalLink).toHaveText('Personal Blog Post One');
+  await expect(personalLink).toHaveAttribute('href', 'https://sanna.a11y.ing/blog/accessibility/post-one/');
   await expect(personalLink.locator('img, p, time')).toHaveCount(0);
   await expect(personalCard.getByText('Description for personal blog post one.')).toBeVisible();
   await expect(personalCard).not.toContainText('Accessibility');

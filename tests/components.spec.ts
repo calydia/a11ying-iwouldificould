@@ -112,6 +112,28 @@ test.describe('SearchBlock', () => {
   });
 });
 
+test.describe('Footer links', () => {
+  test('English footer links to the renewed accessibility blog and Testing Lab', async ({ page }) => {
+    await page.goto('/en/');
+    const footer = page.locator('footer');
+
+    await expect(footer.getByRole('link', { name: 'Accessibility blog' })).toHaveAttribute('href', 'https://sanna.a11y.ing/blog/accessibility/');
+    await expect(footer.getByRole('link', { name: 'Accessibility Testing Lab' })).toHaveAttribute('href', 'https://testing.a11y.ing/');
+  });
+
+  test('Finnish footer identifies the Testing Lab as English-language content', async ({ page }) => {
+    await page.goto('/fi/');
+    const footer = page.locator('footer');
+    const testingLabLink = footer.getByRole('link', { name: 'Accessibility Testing Lab' });
+
+    await expect(footer.getByRole('link', { name: 'Saavutettavuusblogi' })).toHaveAttribute('href', 'https://sanna.a11y.ing/blog/accessibility/');
+    await expect(testingLabLink).toHaveAttribute('href', 'https://testing.a11y.ing/');
+    await expect(testingLabLink).toHaveAttribute('hreflang', 'en');
+    await expect(testingLabLink.locator('[lang="en"]')).toHaveText('Accessibility Testing Lab');
+    await expect(testingLabLink.locator('xpath=following-sibling::span[1]')).toHaveText('(englanniksi)');
+  });
+});
+
 test.describe('Main navigation escape handling', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 900 });
