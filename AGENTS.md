@@ -14,6 +14,12 @@ The site:
 - treats accessibility, keyboard behavior, light/dark themes, and responsive
   rendering as release requirements.
 
+Its role in the site family is broad accessibility education and reference:
+foundations, inclusive design and development, accessible content, testing
+concepts, assistive technology, standards, and laws. Detailed WCAG criterion
+guidance belongs in `wcag-front`; hands-on testing sequences and deliberately
+faulty practice environments belong in `a11y-testing-astro`.
+
 The main runtime inputs are `PUBLIC_PAYLOAD_URL` and `PUBLIC_DRUPAL_URL`.
 Playwright tests provide local mock services for deterministic test runs.
 Astro 7 requires Node.js 22.12 or newer; use a compatible Node 22 release for
@@ -27,7 +33,9 @@ The sibling repositories normally live under the same `projects` directory:
 | --- | --- |
 | `../a11ying-front` | This general accessibility site. |
 | `../wcag-front` | The related bilingual WCAG guide site. |
-| `../a11ying-ui` | The shared React component and design-token package used by both sites. |
+| `../a11y-testing-astro` | The English hands-on accessibility testing lab. |
+| `../sanna` | The bilingual personal/professional site and English blog for Sanna. |
+| `../a11ying-ui` | Shared tokens for all sites plus React components and global styles used here and by WCAG. |
 
 This repository consumes `a11ying-ui` from a tagged GitHub dependency, not
 directly from the sibling checkout. A change in `../a11ying-ui` does not affect
@@ -43,8 +51,18 @@ Use these ownership boundaries:
 - Compare `wcag-front` when changing duplicated site-shell behavior. Do not
   copy a fix blindly; decide whether it belongs in both sites or in
   `a11ying-ui`.
-- After an `a11ying-ui` change, verify the affected behavior in both consumer
-  sites before considering the shared change complete.
+- After a React component or complete-style change in `a11ying-ui`, verify the
+  affected behavior in both full consumer sites before considering it complete.
+  After a token change, verify every affected site.
+- Visual similarity alone is not a reason to share a component. Testing Lab
+  and Sanna use only `a11ying-ui/tokens` and keep their Astro components local.
+
+## Commit and Push Authority
+
+Agents may implement and verify changes in this repository, but must not commit
+or push them. Leave all changes uncommitted for human review. Only the sibling
+`a11ying-ui` package permits agent commits and pushes as part of its approved
+tagged-release workflow.
 
 ## Repository Map
 
@@ -121,9 +139,10 @@ For a change originating in `a11ying-ui`:
 1. Implement and document it with a Storybook story.
 2. Run the design-system build and Storybook test suite.
 3. Release/tag the package as appropriate.
-4. Update `a11ying-ui` in this repository and `wcag-front`.
+4. Update `a11ying-ui` in every affected consumer.
 5. Run focused consumer tests, then each affected site's quality gate.
+6. Leave this repository's changes uncommitted for human review.
 
 Use the TypeScript declarations published by `a11ying-ui`. Do not recreate a
 local ambient module shim; fix missing or incorrect public types in the design
-system package and update both consumers together.
+system package and update both full React consumers together.
