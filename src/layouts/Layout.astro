@@ -32,7 +32,7 @@ const gridClass = (currentType !== "front" && currentUrl.includes('info/') === f
 const crumbClass = (currentType !== "front" && currentUrl.includes('info/') === false && currentUrl.includes('search') === false && currentUrl.includes('haku') === false || currentUrl.includes('hakukone') === true) ? 'crumb-grid' : 'crumb-no-grid';
 
 const siteUrl = 'https://a11y.ing';
-const absoluteOgImage = `${siteUrl}/some-share.jpeg`;
+const absoluteOgImage = `${siteUrl}/social-media-share.jpg`;
 const localeMap = {
   en: 'en_US',
   fi: 'fi_FI',
@@ -143,6 +143,11 @@ const jsonLd = {
     <meta property="og:image" content={absoluteOgImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="A11ying with Sanna" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image:alt" content="A11ying with Sanna" />
     <link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicons/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/manifest.json">
