@@ -20,16 +20,14 @@ async function takeScreenshot(
   dark: boolean
 ) {
   const theme = dark ? 'dark' : 'light';
-  if (dark) {
-    // Add dark class via initScript so the page renders in dark mode from the start,
-    // avoiding timing issues with post-load class toggling.
-    await page.addInitScript(() => {
-      document.documentElement.classList.add('dark');
-    });
-  }
+  await page.addInitScript((darkMode) => {
+    localStorage.setItem('darkMode', darkMode);
+  }, dark ? 'enabled' : 'disabled');
   await page.setViewportSize(VIEWPORTS[viewportKey]);
-  await page.goto(path);
+  const response = await page.goto(path);
+  expect(response?.ok(), `Expected ${path} to load successfully`).toBe(true);
   await page.waitForLoadState('networkidle');
+  await expect(page.locator('html')).toHaveClass(dark ? /\bdark\b/ : /\blight\b/);
   await expect(page).toHaveScreenshot(`${pageName}-${viewportKey}-${theme}.png`, {
     maxDiffPixelRatio: 0.02,
     fullPage: true,

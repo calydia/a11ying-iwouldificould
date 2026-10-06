@@ -28,7 +28,7 @@ export default defineConfig({
           timeout: 10_000,
         },
         {
-          command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${port}`,
+          command: `npm run build && npm run preview -- --host 127.0.0.1 --port ${port} --ignore-lock`,
           url: baseURL,
           reuseExistingServer: false,
           timeout: 120_000,
@@ -39,7 +39,7 @@ export default defineConfig({
         },
       ]
     : {
-        command: `npm run preview -- --host 127.0.0.1 --port ${port}`,
+        command: `npm run preview -- --host 127.0.0.1 --port ${port} --ignore-lock`,
         url: baseURL,
         reuseExistingServer: false,
         timeout: 120_000,
