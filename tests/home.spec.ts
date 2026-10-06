@@ -1,9 +1,10 @@
 import { expect, test } from '@playwright/test';
+import { gotoExistingPage } from './helpers';
 
 test('home page renders payload and blog content', async ({ page }) => {
-  await page.goto('/');
+  await gotoExistingPage(page, '/');
 
-  await expect(page.getByRole('heading', { level: 1 }).first()).toHaveText('I would if I could!');
+  await expect(page.getByRole('heading', { level: 1, name: 'I would if I could!' })).toBeVisible();
   await expect(page.locator('p').filter({ hasText: 'Mocked introduction paragraph.' })).toBeVisible();
 
   await expect(page.getByRole('heading', { name: 'Latest accessibility articles from my blog' })).toBeVisible();
@@ -14,7 +15,7 @@ test('home page renders payload and blog content', async ({ page }) => {
 });
 
 test('shared social image metadata uses the A11ying brand image', async ({ page }) => {
-  await page.goto('/en/');
+  await gotoExistingPage(page, '/en/');
 
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://a11y.ing/social-media-share.jpg');
   await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200');
@@ -27,7 +28,7 @@ test('shared social image metadata uses the A11ying brand image', async ({ page 
 });
 
 test('blog cards use a title-only link and source-appropriate content', async ({ page }) => {
-  await page.goto('/');
+  await gotoExistingPage(page, '/');
 
   const personalSection = page.locator('section[aria-labelledby="a11y-blog-heading"]');
   const personalCard = personalSection.locator('li.card-cover').first();
@@ -55,8 +56,7 @@ test('blog cards use a title-only link and source-appropriate content', async ({
 });
 
 test('main navigation renders mocked items', async ({ page }) => {
-  await page.goto('/');
+  await gotoExistingPage(page, '/');
 
-  const nav = page.locator('#main-menu');
-  await expect(nav).toContainText('Fundamentals');
+  await expect(page.getByRole('navigation', { name: 'Main menu' }).getByRole('button', { name: 'Fundamentals' })).toBeVisible();
 });

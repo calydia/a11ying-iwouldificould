@@ -1,4 +1,5 @@
 import { expect, test, type Route } from '@playwright/test';
+import { gotoExistingPage } from './helpers';
 
 function requestQuery(route: Route): string {
   const requestUrl = decodeURIComponent(route.request().url());
@@ -30,7 +31,7 @@ test.describe('Search page', () => {
       await route.fulfill({ json: searchResponse(query) });
     });
 
-    await page.goto('/en/search/?q=contrast');
+    await gotoExistingPage(page, '/en/search/?q=contrast');
     const input = page.getByRole('textbox', { name: 'Search for content' });
     await expect(input).toHaveValue('contrast');
     await expect(page.getByRole('heading', { name: /contrast result/i })).toBeVisible();
@@ -56,7 +57,7 @@ test.describe('Search page', () => {
       await route.fulfill({ json: { totalDocs: 0, docs: [] } });
     });
 
-    await page.goto('/en/search/');
+    await gotoExistingPage(page, '/en/search/');
     await waitForSearchHydration(page);
     await page.getByRole('textbox', { name: 'Search for content' }).fill('missing');
     await page.getByRole('button', { name: 'Search' }).click();
@@ -66,7 +67,7 @@ test.describe('Search page', () => {
     await page.getByRole('button', { name: 'Search' }).click();
     await expect(page.getByRole('alert')).toHaveText('Search failed. Please try again.');
 
-    await page.goto('/fi/haku/?q=broken');
+    await gotoExistingPage(page, '/fi/haku/?q=broken', { language: 'fi' });
     await expect(page.getByRole('alert')).toHaveText('Haku epäonnistui. Yritä uudelleen.');
   });
 });

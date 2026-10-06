@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { gotoExistingPage } from './helpers';
 
 test.describe('Front page accessibility', () => {    
   test('Finnish page should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/fi/');
+    await gotoExistingPage(page, '/fi/', { language: 'fi' });
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -11,7 +12,7 @@ test.describe('Front page accessibility', () => {
   });
 
   test('English page should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/en/');
+    await gotoExistingPage(page, '/en/');
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -21,7 +22,7 @@ test.describe('Front page accessibility', () => {
 
 test.describe('Search accessibility', () => {    
   test('Finnish page should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/fi/haku/');
+    await gotoExistingPage(page, '/fi/haku/', { language: 'fi' });
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -29,7 +30,7 @@ test.describe('Search accessibility', () => {
   });
 
   test('English page should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/en/search/');
+    await gotoExistingPage(page, '/en/search/');
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -39,7 +40,7 @@ test.describe('Search accessibility', () => {
 
 test.describe('Basic page', () => {    
   test('Finnish page should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/fi/perusteet/perusjutut/mita-saavutettavuus-on/');
+    await gotoExistingPage(page, '/fi/perusteet/perusjutut/mita-saavutettavuus-on/', { language: 'fi' });
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -47,12 +48,11 @@ test.describe('Basic page', () => {
   });
 
   test('English page should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/en/fundamentals/the-basics/what-is-accessibility/');
+    await gotoExistingPage(page, '/en/fundamentals/the-basics/what-is-accessibility/');
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 });
-
 

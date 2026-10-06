@@ -1,40 +1,36 @@
 import { test, expect } from '@playwright/test';
+import { gotoExistingPage, waitForHydration } from './helpers';
 
 test.describe('Skip link', () => {
   test('is the first focusable element', async ({ page }) => {
-    await page.goto('/en/');
-    await page.waitForLoadState('networkidle');
+    await gotoExistingPage(page, '/en/');
     await page.keyboard.press('Tab');
-    await expect(page.locator(':focus')).toHaveAttribute('href', /#skip-target|#skip/);
+    await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   });
 
-  test('moves focus to main content when activated', async ({ page }) => {
-    await page.goto('/en/');
+  test('moves the viewport to main content when activated', async ({ page }) => {
+    await gotoExistingPage(page, '/en/');
     await page.keyboard.press('Tab');
     await page.keyboard.press('Enter');
-    await expect(page.locator('#skip-target')).toBeInViewport();
-  });
-
-  test('is keyboard accessible (Enter activates)', async ({ page }) => {
-    await page.goto('/en/');
-    await page.keyboard.press('Tab');
-    await page.keyboard.press('Enter');
-    await expect(page.locator('#skip-target')).toBeInViewport();
+    const target = page.locator('#skip-target');
+    await expect(target).toBeInViewport();
+    await expect(target).toBeFocused();
   });
 });
 
 test.describe('Theme toggle', () => {
   test('button is visible and has aria-pressed', async ({ page }) => {
-    await page.goto('/en/');
-    await expect(page.locator('#theme-toggle-button')).toBeVisible();
-    await expect(page.locator('#theme-toggle-button')).toHaveAttribute('aria-pressed');
+    await gotoExistingPage(page, '/en/');
+    const button = page.getByRole('button', { name: /Switch to (dark|light) version/ });
+    await expect(button).toBeVisible();
+    await expect(button).toHaveAttribute('aria-pressed');
   });
 
   test('clicking changes dark/light class on <html>', async ({ page }) => {
-    await page.goto('/en/');
-    await page.waitForLoadState('networkidle');
+    await gotoExistingPage(page, '/en/');
+    await waitForHydration(page);
     const html = page.locator('html');
-    const button = page.locator('#theme-toggle-button');
+    const button = page.getByRole('button', { name: /Switch to (dark|light) version/ });
     const wasDark = await html.evaluate((el) => el.classList.contains('dark'));
     await button.click();
     if (wasDark) {
@@ -46,47 +42,47 @@ test.describe('Theme toggle', () => {
 
   test('dark mode persists across reload (localStorage)', async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('darkMode', 'enabled'));
-    await page.goto('/en/');
+    await gotoExistingPage(page, '/en/');
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
   });
 
   test('light mode persists across reload (localStorage)', async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('darkMode', 'disabled'));
-    await page.goto('/en/');
-    await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    await gotoExistingPage(page, '/en/');
+    await expect(page.locator('html')).toHaveClass(/\blight\b/);
   });
 });
 
 test.describe('Language switcher', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/en/');
-    // Wait for React components to hydrate (client:load)
-    await page.waitForLoadState('networkidle');
+    await gotoExistingPage(page, '/en/');
+    await waitForHydration(page);
   });
 
   test('opens on button click with aria-expanded="true"', async ({ page }) => {
-    const button = page.locator('#language-menu-button');
+    const button = page.getByRole('button', { name: /Switch language/ });
     await expect(button).toHaveAttribute('aria-expanded', 'false');
     await button.click();
     await expect(button).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.locator('#lang-switcher')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Suomi (FI)' })).toBeVisible();
   });
 
   test('closes on second button click', async ({ page }) => {
-    const button = page.locator('#language-menu-button');
+    const button = page.getByRole('button', { name: /Switch language/ });
     await button.click();
     await button.click();
     await expect(button).toHaveAttribute('aria-expanded', 'false');
   });
 
   test('switches from English to Finnish', async ({ page }) => {
-    await page.locator('#language-menu-button').click();
-    await page.locator('#lang-switcher a[hreflang="fi"]').click();
+    await page.getByRole('button', { name: /Switch language/ }).click();
+    await page.getByRole('link', { name: 'Suomi (FI)' }).click();
     await expect(page).toHaveURL(/\/fi\//);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'fi');
   });
 
   test('is keyboard accessible (Enter opens menu)', async ({ page }) => {
-    const button = page.locator('#language-menu-button');
+    const button = page.getByRole('button', { name: /Switch language/ });
     await button.focus();
     await page.keyboard.press('Enter');
     await expect(button).toHaveAttribute('aria-expanded', 'true');
@@ -95,26 +91,24 @@ test.describe('Language switcher', () => {
 
 test.describe('SearchBlock', () => {
   test('search icon links to English search page', async ({ page }) => {
-    await page.goto('/en/');
-    await expect(page.locator('#search-a a')).toHaveAttribute('href', '/en/search/');
+    await gotoExistingPage(page, '/en/');
+    await expect(page.getByRole('link', { name: 'Go to search page' })).toHaveAttribute('href', '/en/search/');
   });
 
   test('search icon links to Finnish search page', async ({ page }) => {
-    await page.goto('/fi/');
-    await expect(page.locator('#search-a a')).toHaveAttribute('href', '/fi/haku/');
+    await gotoExistingPage(page, '/fi/', { language: 'fi' });
+    await expect(page.getByRole('link', { name: 'Siirry hakusivulle' })).toHaveAttribute('href', '/fi/haku/');
   });
 
   test('search link has a screen-reader label', async ({ page }) => {
-    await page.goto('/en/');
-    const srOnly = page.locator('#search-a .sr-only');
-    const text = await srOnly.textContent();
-    expect(text).toBeTruthy();
+    await gotoExistingPage(page, '/en/');
+    await expect(page.getByRole('link', { name: 'Go to search page' })).toHaveAccessibleName('Go to search page');
   });
 });
 
 test.describe('Footer links', () => {
   test('English footer links to the renewed accessibility blog and Testing Lab', async ({ page }) => {
-    await page.goto('/en/');
+    await gotoExistingPage(page, '/en/');
     const footer = page.locator('footer');
 
     await expect(footer.getByRole('link', { name: 'Accessibility blog' })).toHaveAttribute('href', 'https://sanna.a11y.ing/blog/accessibility/');
@@ -122,7 +116,7 @@ test.describe('Footer links', () => {
   });
 
   test('Finnish footer identifies the Testing Lab as English-language content', async ({ page }) => {
-    await page.goto('/fi/');
+    await gotoExistingPage(page, '/fi/', { language: 'fi' });
     const footer = page.locator('footer');
     const testingLabLink = footer.getByRole('link', { name: 'Accessibility Testing Lab' });
 
@@ -130,22 +124,22 @@ test.describe('Footer links', () => {
     await expect(testingLabLink).toHaveAttribute('href', 'https://testing.a11y.ing/');
     await expect(testingLabLink).toHaveAttribute('hreflang', 'en');
     await expect(testingLabLink.locator('[lang="en"]')).toHaveText('Accessibility Testing Lab');
-    await expect(testingLabLink.locator('xpath=following-sibling::span[1]')).toHaveText('(englanniksi)');
+    await expect(footer.getByText('(englanniksi)', { exact: true })).toBeVisible();
   });
 });
 
 test.describe('Main navigation escape handling', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 900 });
-    await page.goto('/en/');
-    await page.waitForLoadState('networkidle');
+    await gotoExistingPage(page, '/en/');
+    await waitForHydration(page);
   });
 
   test('closes the current nested level first, then the parent level on second Escape', async ({ page }) => {
-    const menuToggle = page.locator('#main-menu-toggle');
-    const topButton = page.locator('.menu-button').first();
-    const nestedToggle = page.locator('.menu-button-ul .mobile-menu-toggle').first();
-    const nestedLink = page.locator('.menu-button-ul .menu-lower-level a').first();
+    const menuToggle = page.getByRole('button', { name: 'Navigation' });
+    const topButton = page.getByRole('button', { name: 'Fundamentals' });
+    const nestedToggle = page.getByRole('button', { name: /Types of disabilities/ });
+    const nestedLink = page.getByRole('link', { name: 'Visual disabilities' });
 
     await menuToggle.click();
     await topButton.click();
@@ -164,8 +158,8 @@ test.describe('Main navigation escape handling', () => {
   });
 
   test('closes the open submenu first and the whole menu on second Escape from the top-level button', async ({ page }) => {
-    const menuToggle = page.locator('#main-menu-toggle');
-    const topButton = page.locator('.menu-button').first();
+    const menuToggle = page.getByRole('button', { name: 'Navigation' });
+    const topButton = page.getByRole('button', { name: 'Fundamentals' });
 
     await menuToggle.click();
     await topButton.click();

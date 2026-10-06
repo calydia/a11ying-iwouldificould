@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { gotoExistingPage } from './helpers';
 
 const VIEWPORTS = {
   desktop: { width: 1280, height: 800 },
@@ -24,8 +25,7 @@ async function takeScreenshot(
     localStorage.setItem('darkMode', darkMode);
   }, dark ? 'enabled' : 'disabled');
   await page.setViewportSize(VIEWPORTS[viewportKey]);
-  const response = await page.goto(path);
-  expect(response?.ok(), `Expected ${path} to load successfully`).toBe(true);
+  await gotoExistingPage(page, path);
   await page.waitForLoadState('networkidle');
   await expect(page.locator('html')).toHaveClass(dark ? /\bdark\b/ : /\blight\b/);
   await expect(page).toHaveScreenshot(`${pageName}-${viewportKey}-${theme}.png`, {
