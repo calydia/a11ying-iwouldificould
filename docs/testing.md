@@ -2,7 +2,7 @@
 
 Use this playbook when changing the site base, shared layouts, interactive components, or visual presentation.
 
-Use Node.js 22.12 or newer. Astro 7 and the production-preview test workflow
+Use Node.js 22.23.4 or newer. Astro 7 and the production-preview test workflow
 depend on that runtime requirement.
 
 ## Commands
