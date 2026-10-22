@@ -22,8 +22,7 @@ faulty practice environments belong in `a11y-testing-astro`.
 
 The main runtime inputs are `PUBLIC_PAYLOAD_URL` and `PUBLIC_DRUPAL_URL`.
 Playwright tests provide local mock services for deterministic test runs.
-Astro 7 requires Node.js 22.12 or newer; use a compatible Node 22 release for
-local development, CI, and production builds.
+Use Node.js 24 for local development, CI, and production builds.
 
 ## Related Repositories
 
@@ -98,7 +97,7 @@ tagged-release workflow.
 
 ## Commands
 
-Run commands from this repository root:
+Run commands from this repository root with Node.js 24:
 
 ```bash
 npm install
