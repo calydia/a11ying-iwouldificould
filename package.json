@@ -25,7 +25,7 @@
     "@fontsource/lato": "^5.3.0",
     "@fontsource/satisfy": "^5.3.0",
     "@tailwindcss/vite": "^4.3.5",
-    "a11ying-ui": "github:calydia/a11ying-ui#v2.0.14",
+    "a11ying-ui": "github:calydia/a11ying-ui#v2.0.15",
     "astro": "^7.4.11",
     "astro-icon": "^1.2.0",
     "dayjs": "^1.11.23",
